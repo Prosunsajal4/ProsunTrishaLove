@@ -23,3 +23,8 @@ Day 2: Outlined the journey from our first text in Nov 2024 to forever.
 **content: write heartfelt memories and sweet moments log**
 
 Day 3: Compiled special memories: coffee talks, late night giggles, and Pujo.
+
+### October 3, 2026 — 19:15:00
+**style: polish card elevation shadows and soft glassmorphism**
+
+Day 3 (Eve): Added translucent glassmorphism backdrop filters for cards.
