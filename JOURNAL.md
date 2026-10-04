@@ -28,3 +28,8 @@ Day 3: Compiled special memories: coffee talks, late night giggles, and Pujo.
 **style: polish card elevation shadows and soft glassmorphism**
 
 Day 3 (Eve): Added translucent glassmorphism backdrop filters for cards.
+
+### October 4, 2026 — 15:00:00
+**feat: prototype floating canvas heart particles**
+
+Day 4: Built preliminary 2D canvas floating hearts and petal physics.
