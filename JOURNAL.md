@@ -38,3 +38,8 @@ Day 4: Built preliminary 2D canvas floating hearts and petal physics.
 **refactor: optimize particle lifecycle and frame rates**
 
 Day 5: Added visibility change listeners to pause canvas when tab is hidden.
+
+### October 5, 2026 — 18:25:00
+**docs: add why-I-love-you quotes compilation**
+
+Day 5 (Eve): Wrote initial list of 18 genuine reasons why Prosun adores Trisha.
