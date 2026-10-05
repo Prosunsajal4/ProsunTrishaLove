@@ -33,3 +33,8 @@ Day 3 (Eve): Added translucent glassmorphism backdrop filters for cards.
 **feat: prototype floating canvas heart particles**
 
 Day 4: Built preliminary 2D canvas floating hearts and petal physics.
+
+### October 5, 2026 — 12:40:00
+**refactor: optimize particle lifecycle and frame rates**
+
+Day 5: Added visibility change listeners to pause canvas when tab is hidden.
