@@ -68,3 +68,8 @@ Day 8: Drafted questions testing Trisha on our milestones and inside jokes.
 **feat: implement quiz scoring and certificate generation**
 
 Day 9: Added love master certificate modal upon scoring 100% on the quiz.
+
+### October 9, 2026 — 16:10:00
+**style: style animated progress fill for quiz steps**
+
+Day 9 (Eve): Polished smooth gradient transitions for quiz progress bar.
