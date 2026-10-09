@@ -63,3 +63,8 @@ Day 7 (Eve): Perfected 3D CSS rotateX transform for breaking the wax seal.
 **feat: add interactive love quiz question bank**
 
 Day 8: Drafted questions testing Trisha on our milestones and inside jokes.
+
+### October 9, 2026 — 10:45:00
+**feat: implement quiz scoring and certificate generation**
+
+Day 9: Added love master certificate modal upon scoring 100% on the quiz.
