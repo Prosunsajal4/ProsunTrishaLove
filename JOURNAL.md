@@ -93,3 +93,8 @@ Day 11: Added rotating vinyl player with retro grooves for Saiyara melody.
 **style: implement candlelight dark theme**
 
 Day 12: Created deep velvet nocturnal theme with warm candlelight accents.
+
+### October 12, 2026 — 17:40:00
+**feat: add theme toggle persistence via localStorage**
+
+Day 12 (Eve): Saved user preference so daylight/candlelight sticks on refresh.
