@@ -98,3 +98,8 @@ Day 12: Created deep velvet nocturnal theme with warm candlelight accents.
 **feat: add theme toggle persistence via localStorage**
 
 Day 12 (Eve): Saved user preference so daylight/candlelight sticks on refresh.
+
+### October 13, 2026 — 15:25:00
+**feat: add romantic confetti cannon effect**
+
+Day 13: Coded multi-color physics-based confetti bursts for celebrations.
