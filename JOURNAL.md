@@ -103,3 +103,8 @@ Day 12 (Eve): Saved user preference so daylight/candlelight sticks on refresh.
 **feat: add romantic confetti cannon effect**
 
 Day 13: Coded multi-color physics-based confetti bursts for celebrations.
+
+### October 14, 2026 — 12:10:00
+**feat: add click and tap heart burst particles**
+
+Day 14: Spawned floating heart emojis wherever the screen is tapped.
