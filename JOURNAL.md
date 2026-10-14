@@ -108,3 +108,8 @@ Day 13: Coded multi-color physics-based confetti bursts for celebrations.
 **feat: add click and tap heart burst particles**
 
 Day 14: Spawned floating heart emojis wherever the screen is tapped.
+
+### October 14, 2026 — 18:50:00
+**style: ensure cursor effects are safe on touch screens**
+
+Day 14 (Eve): Enabled custom glowing cursor exclusively on desktop pointers.
