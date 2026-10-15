@@ -113,3 +113,8 @@ Day 14: Spawned floating heart emojis wherever the screen is tapped.
 **style: ensure cursor effects are safe on touch screens**
 
 Day 14 (Eve): Enabled custom glowing cursor exclusively on desktop pointers.
+
+### October 15, 2026 — 12:10:00
+**feat: build polaroid photo gallery layout**
+
+Day 15: Added realistic polaroids with washi tape details and captions.
