@@ -123,3 +123,8 @@ Day 15: Added realistic polaroids with washi tape details and captions.
 **feat: add category filter pills for memories**
 
 Day 16: Implemented category filtering for Firsts, Celebrations, and Daily.
+
+### October 16, 2026 — 16:30:00
+**feat: add lightbox modal for secret notes**
+
+Day 16 (Eve): Clicking a polaroid opens full view with Prosun personal note.
