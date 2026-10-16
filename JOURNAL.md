@@ -118,3 +118,8 @@ Day 14 (Eve): Enabled custom glowing cursor exclusively on desktop pointers.
 **feat: build polaroid photo gallery layout**
 
 Day 15: Added realistic polaroids with washi tape details and captions.
+
+### October 16, 2026 — 10:40:00
+**feat: add category filter pills for memories**
+
+Day 16: Implemented category filtering for Firsts, Celebrations, and Daily.
