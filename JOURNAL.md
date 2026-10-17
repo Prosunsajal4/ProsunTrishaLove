@@ -128,3 +128,8 @@ Day 16: Implemented category filtering for Firsts, Celebrations, and Daily.
 **feat: add lightbox modal for secret notes**
 
 Day 16 (Eve): Clicking a polaroid opens full view with Prosun personal note.
+
+### October 17, 2026 — 14:50:00
+**style: enhance typography with Plus Jakarta Sans and Playfair**
+
+Day 17: Fine-tuned font pairing for modern clarity and classic romance.
