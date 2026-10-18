@@ -138,3 +138,8 @@ Day 17: Fine-tuned font pairing for modern clarity and classic romance.
 **feat: build scroll progress beam indicator**
 
 Day 18: Added slim glowing rose progress bar at the very top of each page.
+
+### October 18, 2026 — 17:05:00
+**feat: add floating back-to-top button**
+
+Day 18 (Eve): Smooth scroll button appears when scrolling past 350px.
