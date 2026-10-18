@@ -133,3 +133,8 @@ Day 16 (Eve): Clicking a polaroid opens full view with Prosun personal note.
 **style: enhance typography with Plus Jakarta Sans and Playfair**
 
 Day 17: Fine-tuned font pairing for modern clarity and classic romance.
+
+### October 18, 2026 — 11:15:00
+**feat: build scroll progress beam indicator**
+
+Day 18: Added slim glowing rose progress bar at the very top of each page.
