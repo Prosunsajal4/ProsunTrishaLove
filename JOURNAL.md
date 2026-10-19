@@ -143,3 +143,8 @@ Day 18: Added slim glowing rose progress bar at the very top of each page.
 **feat: add floating back-to-top button**
 
 Day 18 (Eve): Smooth scroll button appears when scrolling past 350px.
+
+### October 19, 2026 — 13:40:00
+**refactor: implement intersection observer reveals**
+
+Day 19: Replaced scroll listeners with performant IntersectionObserver.
