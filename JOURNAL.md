@@ -148,3 +148,8 @@ Day 18 (Eve): Smooth scroll button appears when scrolling past 350px.
 **refactor: implement intersection observer reveals**
 
 Day 19: Replaced scroll listeners with performant IntersectionObserver.
+
+### October 20, 2026 — 12:20:00
+**feat: create persistent floating audio dock**
+
+Day 20: Floating mini sound bar lets Trisha play our melody on every page.
