@@ -153,3 +153,8 @@ Day 19: Replaced scroll listeners with performant IntersectionObserver.
 **feat: create persistent floating audio dock**
 
 Day 20: Floating mini sound bar lets Trisha play our melody on every page.
+
+### October 20, 2026 — 19:00:00
+**perf: optimize audio context initialization on user gesture**
+
+Day 20 (Eve): Handled browser autoplay policies smoothly.
