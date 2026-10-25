@@ -7,24 +7,24 @@
   'use strict';
 
   // ---------------- Relationship Milestones ----------------
-  // She said YES: July 9, 2025
-  // First Meet: July 10, 2025
-  const START_DATE = new Date('July 9, 2025 00:00:00').getTime();
+  // She said YES: Oct 10, 2025
+  // First Meet: October 25, 2025 (Anniversary)
+  const START_DATE = new Date('October 10, 2025 00:00:00').getTime();
 
-  // Dynamically calculate the NEXT anniversary date (July 10th)
+  // Dynamically calculate the NEXT anniversary date (October 25th)
   function getNextAnniversaryDate() {
     const now = new Date();
     let year = now.getFullYear();
-    let target = new Date(`July 10, ${year} 00:00:00`);
+    let target = new Date(`Oct 25, ${year} 00:00:00`);
     if (now.getTime() >= target.getTime()) {
-      target = new Date(`July 10, ${year + 1} 00:00:00`);
+      target = new Date(`Oct 25, ${year + 1} 00:00:00`);
     }
     return target.getTime();
   }
 
   // ---------------- Live Love Counters ----------------
   function initLoveTimers() {
-    // 1. Time Together (Counting Up from July 9, 2025)
+    // 1. Time Together (Counting Up from October 10, 2025)
     const upDays = document.getElementById('countup-days');
     const upHours = document.getElementById('countup-hours');
     const upMins = document.getElementById('countup-mins');
@@ -631,7 +631,7 @@
     "Being my brilliant Miss Engineer — watching you succeed makes me so proud! 👩‍💻",
     "How cute you look when you're excitedly telling me about your day.",
     "Your sweet messages in the morning that instantly brighten my entire mood.",
-    "The feeling of holding your hand during our first meet on 10th July 2025.",
+    "The feeling of holding your hand during our first meet � a moment I will treasure forever.",
     "How you make ordinary moments feel like something out of a romantic movie.",
     "Your unwavering support whenever I'm working hard or feeling tired.",
     "The warmth in your voice when you say 'I love you, Prosun'.",
