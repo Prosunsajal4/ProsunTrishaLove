@@ -3,93 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Love Quiz 💝 | Trisha & Prosun</title>
-  <meta name="description" content="How well do you know our love story? Take the anniversary quiz from Prosun to Trisha">
+  <title>Our Love Quiz 💝 | Prosun & Trisha</title>
+  <meta name="description" content="An interactive romantic quiz for Trisha from Prosun — How well do you know our love story?">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💝</text></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- Page Loader -->
   <div class="page-loader" id="page-loader">
-    <div class="loader-heart">💕</div>
-    <div class="loader-text">Loading the quiz...</div>
+    <div class="loader-heart">💝</div>
+    <div class="loader-text">Preparing our love quiz...</div>
   </div>
 
+  <!-- Navigation -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="index.html" class="nav-logo">💕 TP</a>
+      <a href="index.html" class="nav-logo">
+        <span>💕 P &amp; T</span>
+        <span class="nav-logo-badge">Forever</span>
+      </a>
       <ul class="nav-links" id="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="quiz.html" class="active">Quiz</a></li>
-        <li><a href="timeline.html">Journey</a></li>
+        <li><a href="timeline.html">Our Journey</a></li>
         <li><a href="memories.html">Memories</a></li>
-        <li><a href="letter.html">Letter</a></li>
-        <li><a href="music.html">Song</a></li>
+        <li><a href="quiz.html" class="active">Love Quiz</a></li>
+        <li><a href="letter.html">My Letter</a></li>
+        <li><a href="music.html">Our Song</a></li>
       </ul>
       <div class="nav-actions">
-        <button class="nav-toggle" id="nav-toggle">
-          <span></span><span></span><span></span>
+        <button class="icon-btn theme-toggle-btn" id="theme-toggle" aria-label="Toggle Theme" title="Toggle Theme">
+          <span>🌙</span>
         </button>
-        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
       </div>
     </div>
   </nav>
 
-  <section style="padding: 110px 24px 100px;">
+  <!-- Quiz Section -->
+  <section class="section-padding" style="padding-top: 130px;">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title text-gradient">How Well Do You Know<br>Our Story?</h2>
+        <span class="section-badge">How Well Do You Know Us?</span>
+        <h1 class="section-title text-gradient">A Quiz for My Baby Trisha 💝</h1>
         <div class="divider"></div>
-        <p class="section-subtitle">Before you unlock your surprise, let's see how well you know our story. ❤️</p>
+        <p class="section-subtitle">
+          Test your memory on the most beautiful moments of our love story!
+        </p>
       </div>
 
-      <div class="quiz-card card reveal">
-        <div id="quiz-container">
-          <div class="question-text" id="question-text">When did we first meet? 💕</div>
-          <span class="hint">Hint: It was July 2025! 💝</span>
+      <div class="quiz-wrapper">
+        <!-- Progress bar -->
+        <div class="quiz-progress-bar-container">
+          <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+        </div>
+
+        <!-- Active Question Card -->
+        <div class="quiz-card" id="quiz-container">
+          <span class="quiz-counter" id="quiz-counter">Question 1 of 5</span>
+          <h2 class="question-text" id="question-text">When did we first meet in person, my baby? 💕</h2>
+          <div class="quiz-hint-pill" id="quiz-hint">Hint: July 2025! 🌹</div>
+
           <div class="quiz-options" id="quiz-options">
-            <button class="quiz-option" data-answer="1">10th July 2025</button>
-            <button class="quiz-option" data-answer="2">5th June 2025</button>
-            <button class="quiz-option" data-answer="3">20th August 2025</button>
-            <button class="quiz-option" data-answer="4">1st September 2025</button>
+            <!-- Dynamically populated by script.js -->
           </div>
-          <button class="btn btn-primary submit-btn" id="submit-btn">Submit 💕</button>
+
+          <button class="btn btn-primary" id="submit-btn">Submit Answer 💕</button>
+
+          <!-- Feedback Box -->
+          <div id="feedback">
+            <div class="feedback-icon" id="feedback-icon">💖</div>
+            <h3 class="feedback-title" id="feedback-title">Correct!</h3>
+            <p class="feedback-msg" id="feedback-msg">Feedback message goes here...</p>
+            <button class="btn btn-outline" id="next-btn" style="margin-top: 20px;">Next Question →</button>
+          </div>
         </div>
 
-        <div id="feedback">
-          <div class="feedback-icon" id="feedback-icon"></div>
-          <h3 class="feedback-title" id="feedback-title"></h3>
-          <p class="feedback-msg" id="feedback-msg"></p>
-          <button class="btn btn-outline" id="next-btn" style="margin-top: 20px;">Next Question</button>
-        </div>
-      </div>
+        <!-- Quiz Completion Screen -->
+        <div id="quiz-complete">
+          <div class="certificate-card">
+            <span class="cert-badge">🏆</span>
+            <h2 class="section-title text-gradient" style="margin-bottom: 12px;">Love Master Certificate</h2>
+            <p style="font-family: 'Dancing Script', cursive; font-size: 2.2rem; color: var(--pink-primary); margin-bottom: 16px;">
+              Awarded to Baby Trisha 💕
+            </p>
+            <p id="final-score-text" style="font-size: 1.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 24px;">
+              Score: 5 / 5 — You are 100% Prosun's Soulmate! 💖
+            </p>
+            <p style="max-width: 540px; margin: 0 auto 36px; line-height: 1.7; color: var(--text-secondary);">
+              You know every beat of our story by heart! Because you passed the official love test with flying colors, a heartfelt surprise awaits you in the secret letter...
+            </p>
 
-      <div id="quiz-complete">
-        <span class="complete-emoji">🎉</span>
-        <h2 class="complete-title">You Know Me So Well! ❤️</h2>
-        <p class="complete-subtitle">You passed the love test! Here's your special surprise...</p>
-        <a href="letter.html" class="btn btn-primary">Open Your Surprise 💝</a>
+            <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+              <a href="letter.html" class="btn btn-primary">Open Your Secret Letter 💌</a>
+              <button class="btn btn-outline" id="restart-quiz-btn">Play Quiz Again 🔄</button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
 
+  <!-- Footer -->
   <footer class="footer">
-    <div class="footer-heart">❤️💕💖💗💝</div>
-    <p>Trisha &amp; Prosun<br><strong>Forever &amp; Always ❤️</strong></p>
+    <div class="footer-heart">💖💕💗</div>
+    <p>
+      Created with love by <strong>Prosun</strong> for his baby <strong>Trisha</strong>.<br>
+      <strong>Forever &amp; Always My Miss Engineer ❤️</strong>
+    </p>
   </footer>
 
-  <button class="back-to-top" id="back-to-top" aria-label="Back to top">↑</button>
+  <button class="back-to-top" id="back-to-top" aria-label="Scroll Back to Top">↑</button>
 
   <script src="script.js"></script>
-  <script>
-    window.addEventListener('load', () => {
-      const loader = document.getElementById('page-loader');
-      setTimeout(() => {
-        loader.classList.add('hidden');
-        setTimeout(() => loader.remove(), 600);
-      }, 700);
-    });
-  </script>
 </body>
 </html>

@@ -3,108 +3,211 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Memories 📸 | Trisha & Prosun</title>
-  <meta name="description" content="Special moments we'll treasure forever - Anniversary memories gallery">
+  <title>Our Memories Vault 📸 | Prosun & Trisha</title>
+  <meta name="description" content="Polaroid photo gallery of sweet moments between Prosun and his baby Trisha — Pujo memories, coffee dates, first meet, and late night calls.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📸</text></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+  <!-- Page Loader -->
   <div class="page-loader" id="page-loader">
-    <div class="loader-heart">💕</div>
-    <div class="loader-text">Loading our memories...</div>
+    <div class="loader-heart">📸</div>
+    <div class="loader-text">Developing our sweet memories...</div>
   </div>
 
+  <!-- Navigation -->
   <nav class="navbar" id="navbar">
     <div class="nav-container">
-      <a href="index.html" class="nav-logo">💕 TP</a>
+      <a href="index.html" class="nav-logo">
+        <span>💕 P &amp; T</span>
+        <span class="nav-logo-badge">Forever</span>
+      </a>
       <ul class="nav-links" id="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="quiz.html">Quiz</a></li>
-        <li><a href="timeline.html">Journey</a></li>
+        <li><a href="timeline.html">Our Journey</a></li>
         <li><a href="memories.html" class="active">Memories</a></li>
-        <li><a href="letter.html">Letter</a></li>
-        <li><a href="music.html">Song</a></li>
+        <li><a href="quiz.html">Love Quiz</a></li>
+        <li><a href="letter.html">My Letter</a></li>
+        <li><a href="music.html">Our Song</a></li>
       </ul>
       <div class="nav-actions">
-        <button class="nav-toggle" id="nav-toggle">
-          <span></span><span></span><span></span>
+        <button class="icon-btn theme-toggle-btn" id="theme-toggle" aria-label="Toggle Theme" title="Toggle Theme">
+          <span>🌙</span>
         </button>
-        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
       </div>
     </div>
   </nav>
 
-  <section style="padding: 100px 0;">
+  <!-- Memories Header -->
+  <section class="section-padding" style="padding-top: 130px;">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title text-gradient">Our Memories 📸</h2>
+        <span class="section-badge">Polaroid Album</span>
+        <h1 class="section-title text-gradient">Our Precious Memories 📸</h1>
         <div class="divider"></div>
-        <p class="section-subtitle">Special moments we'll treasure forever...</p>
+        <p class="section-subtitle">
+          Every snapshot is a captured heartbeat. Click any polaroid to view our secret notes and relive that moment!
+        </p>
       </div>
 
+      <!-- Category Filter Pills -->
+      <div class="memories-filter">
+        <button class="filter-btn active" data-filter="all">All Moments ✨</button>
+        <button class="filter-btn" data-filter="firsts">Our Firsts 🌹</button>
+        <button class="filter-btn" data-filter="dates">Special Celebrations 🌸</button>
+        <button class="filter-btn" data-filter="daily">Everyday Love ☕</button>
+      </div>
+
+      <!-- Polaroid Grid -->
       <div class="memories-grid">
-        <div class="memory-card reveal">
-          <div class="memory-image">📸</div>
-          <div class="memory-glare"></div>
-          <div class="memory-caption">The day our story stepped out of our chats and into real life. ❤️</div>
+
+        <!-- Card 1 -->
+        <div class="memory-card reveal" data-category="firsts">
+          <div class="memory-tape"></div>
+          <div class="memory-image-container">
+            <span class="memory-emoji-display">🌹</span>
+          </div>
+          <div class="memory-body">
+            <span class="memory-date">10th July 2025</span>
+            <div class="memory-caption">The Day We First Met In Person</div>
+            <div class="memory-secret-note">"My hands were trembling with excitement before seeing you, but your smile made me feel instantly at home."</div>
+          </div>
         </div>
-        <div class="memory-card reveal">
-          <div class="memory-image">🌸</div>
-          <div class="memory-glare"></div>
-          <div class="memory-caption">Captured During Pujo, Cherished Forever. 💕</div>
+
+        <!-- Card 2 -->
+        <div class="memory-card reveal" data-category="dates">
+          <div class="memory-tape"></div>
+          <div class="memory-image-container">
+            <span class="memory-emoji-display">🌸</span>
+          </div>
+          <div class="memory-body">
+            <span class="memory-date">Pujo Celebrations</span>
+            <div class="memory-caption">Captured During Pujo, Cherished Forever</div>
+            <div class="memory-secret-note">"You wore the most stunning traditional saree and I couldn't take my eyes off you for even a second."</div>
+          </div>
         </div>
-        <div class="memory-card reveal">
-          <div class="memory-image">☕</div>
-          <div class="memory-glare"></div>
-          <div class="memory-caption">Coffee dates and endless conversations.</div>
+
+        <!-- Card 3 -->
+        <div class="memory-card reveal" data-category="firsts">
+          <div class="memory-tape"></div>
+          <div class="memory-image-container">
+            <span class="memory-emoji-display">💍</span>
+          </div>
+          <div class="memory-body">
+            <span class="memory-date">9th July 2025</span>
+            <div class="memory-caption">The Day I Said "YES!"</div>
+            <div class="memory-secret-note">"The best decision of my life. 4-5 months of your patience led to pure happiness."</div>
+          </div>
         </div>
-        <div class="memory-card reveal">
-          <div class="memory-image">🌙</div>
-          <div class="memory-glare"></div>
-          <div class="memory-caption">Late night calls under the moonlight.</div>
+
+        <!-- Card 4 -->
+        <div class="memory-card reveal" data-category="daily">
+          <div class="memory-tape"></div>
+          <div class="memory-image-container">
+            <span class="memory-emoji-display">☕</span>
+          </div>
+          <div class="memory-body">
+            <span class="memory-date">Coffee &amp; Endless Talks</span>
+            <div class="memory-caption">Warm Cups &amp; Warm Hearts</div>
+            <div class="memory-secret-note">"Talking about our future, our tech careers, and how we'll conquer the world together."</div>
+          </div>
         </div>
-        <div class="memory-card reveal">
-          <div class="memory-image">🎂</div>
-          <div class="memory-glare"></div>
-          <div class="memory-caption">Celebrating birthdays and special days together.</div>
+
+        <!-- Card 5 -->
+        <div class="memory-card reveal" data-category="daily">
+          <div class="memory-tape"></div>
+          <div class="memory-image-container">
+            <span class="memory-emoji-display">🌙</span>
+          </div>
+          <div class="memory-body">
+            <span class="memory-date">Midnight Conversations</span>
+            <div class="memory-caption">Under the Starlit Sky</div>
+            <div class="memory-secret-note">"When the whole city was asleep, you and I were awake building our own universe."</div>
+          </div>
         </div>
-        <div class="memory-card reveal">
-          <div class="memory-image">🚗</div>
-          <div class="memory-glare"></div>
-          <div class="memory-caption">Long drives and spontaneous adventures.</div>
+
+        <!-- Card 6 -->
+        <div class="memory-card reveal" data-category="dates">
+          <div class="memory-tape"></div>
+          <div class="memory-image-container">
+            <span class="memory-emoji-display">🎂</span>
+          </div>
+          <div class="memory-body">
+            <span class="memory-date">Special Celebrations</span>
+            <div class="memory-caption">Birthdays &amp; Big Smiles</div>
+            <div class="memory-secret-note">"Seeing you blow out candles and wishing that all your dreams come true, always."</div>
+          </div>
         </div>
-        <div class="memory-card reveal">
-          <div class="memory-image">🏡</div>
-          <div class="memory-glare"></div>
-          <div class="memory-caption">Quiet evenings at home, just us.</div>
+
+        <!-- Card 7 -->
+        <div class="memory-card reveal" data-category="daily">
+          <div class="memory-tape"></div>
+          <div class="memory-image-container">
+            <span class="memory-emoji-display">🚗</span>
+          </div>
+          <div class="memory-body">
+            <span class="memory-date">Spontaneous Journeys</span>
+            <div class="memory-caption">Long Drives &amp; Our Favorite Songs</div>
+            <div class="memory-secret-note">"Singing Saiyara at the top of our lungs while the cool wind blew through our hair."</div>
+          </div>
         </div>
-        <div class="memory-card reveal">
-          <div class="memory-image">🎁</div>
-          <div class="memory-glare"></div>
-          <div class="memory-caption">Surprises, gifts, and big smiles.</div>
+
+        <!-- Card 8 -->
+        <div class="memory-card reveal" data-category="dates">
+          <div class="memory-tape"></div>
+          <div class="memory-image-container">
+            <span class="memory-emoji-display">🎁</span>
+          </div>
+          <div class="memory-body">
+            <span class="memory-date">Surprise Moments</span>
+            <div class="memory-caption">Little Gifts, Infinite Love</div>
+            <div class="memory-secret-note">"Your little joyful jumps when you receive a surprise is the cutest thing on Earth."</div>
+          </div>
         </div>
+
+      </div>
+
+      <!-- Action Footer -->
+      <div style="text-align: center; margin-top: 60px;">
+        <a href="quiz.html" class="btn btn-primary">Take Our Love Quiz 💝</a>
+        <a href="letter.html" class="btn btn-outline">Read Love Letter 💌</a>
       </div>
     </div>
   </section>
 
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightbox-modal">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightbox-close" aria-label="Close Lightbox">&times;</button>
+      <div style="font-size: 4.5rem; margin-bottom: 16px;" id="modal-emoji">📸</div>
+      <span class="memory-date" id="modal-date" style="font-size: 0.9rem; margin-bottom: 8px;">Date</span>
+      <h3 class="memory-caption" id="modal-caption" style="font-size: 1.4rem; margin-bottom: 14px;">Caption</h3>
+      <p class="memory-secret-note" id="modal-secret" style="font-size: 1.05rem; line-height: 1.7; border-top: none; padding-top: 0;">Secret Note</p>
+      <div style="margin-top: 24px;">
+        <button class="btn btn-primary" onclick="window.fireConfetti(80); window.RomanticAudio.playSuccessChime();" style="padding: 10px 24px; font-size: 0.9rem;">
+          Send a Kiss 💋
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
   <footer class="footer">
-    <div class="footer-heart">❤️💕💖💗💝</div>
-    <p>Trisha &amp; Prosun<br><strong>Forever &amp; Always ❤️</strong></p>
+    <div class="footer-heart">💖💕💗</div>
+    <p>
+      Treasured with all my heart by <strong>Prosun</strong> for his baby <strong>Trisha</strong>.<br>
+      <strong>Forever &amp; Always My Miss Engineer ❤️</strong>
+    </p>
   </footer>
 
-  <button class="back-to-top" id="back-to-top" aria-label="Back to top">↑</button>
+  <button class="back-to-top" id="back-to-top" aria-label="Scroll Back to Top">↑</button>
 
   <script src="script.js"></script>
-  <script>
-    window.addEventListener('load', () => {
-      const loader = document.getElementById('page-loader');
-      setTimeout(() => {
-        loader.classList.add('hidden');
-        setTimeout(() => loader.remove(), 600);
-      }, 700);
-    });
-  </script>
 </body>
 </html>
