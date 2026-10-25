@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Song ♫ | Trisha & Prosun</title>
+  <meta name="description" content="Our song - Saiyara. A musical tribute from Prosun to Trisha on their 1st anniversary">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="page-loader" id="page-loader">
+    <div class="loader-heart">💕</div>
+    <div class="loader-text">Tuning our song...</div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">💕 TP</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="timeline.html">Journey</a></li>
+        <li><a href="memories.html">Memories</a></li>
+        <li><a href="letter.html">Letter</a></li>
+        <li><a href="music.html" class="active">Song</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-toggle" id="nav-toggle">
+          <span></span><span></span><span></span>
+        </button>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section style="padding: 120px 24px 120px;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title text-gradient">Our Song ♫</h2>
+        <div class="divider"></div>
+        <p class="section-subtitle">Saiyara 🎵</p>
+      </div>
+
+      <div class="music-card card reveal">
+        <div class="music-visual" id="music-visual">
+          <div class="music-icon">♪</div>
+        </div>
+        <audio id="audio">
+          <source src="audio.mp3" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+        <button class="btn btn-primary" id="play-btn">
+          <span id="play-icon">▶</span> Play Our Song
+        </button>
+        <p style="margin-top: 24px; color: var(--text-medium); font-size: 1rem;">
+          This song reminds me of you, Trisha. 💕
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-heart">❤️💕💖💗💝</div>
+    <p>Trisha &amp; Prosun<br><strong>Forever &amp; Always ❤️</strong></p>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top" aria-label="Back to top">↑</button>
+
+  <script src="script.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        setTimeout(() => loader.remove(), 600);
+      }, 700);
+    });
+  </script>
+</body>
+</html>

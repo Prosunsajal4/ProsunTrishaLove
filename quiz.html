@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Love Quiz 💝 | Trisha & Prosun</title>
+  <meta name="description" content="How well do you know our love story? Take the anniversary quiz from Prosun to Trisha">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="page-loader" id="page-loader">
+    <div class="loader-heart">💕</div>
+    <div class="loader-text">Loading the quiz...</div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">💕 TP</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quiz.html" class="active">Quiz</a></li>
+        <li><a href="timeline.html">Journey</a></li>
+        <li><a href="memories.html">Memories</a></li>
+        <li><a href="letter.html">Letter</a></li>
+        <li><a href="music.html">Song</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-toggle" id="nav-toggle">
+          <span></span><span></span><span></span>
+        </button>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section style="padding: 110px 24px 100px;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title text-gradient">How Well Do You Know<br>Our Story?</h2>
+        <div class="divider"></div>
+        <p class="section-subtitle">Before you unlock your surprise, let's see how well you know our story. ❤️</p>
+      </div>
+
+      <div class="quiz-card card reveal">
+        <div id="quiz-container">
+          <div class="question-text" id="question-text">When did we first meet? 💕</div>
+          <span class="hint">Hint: It was July 2025! 💝</span>
+          <div class="quiz-options" id="quiz-options">
+            <button class="quiz-option" data-answer="1">10th July 2025</button>
+            <button class="quiz-option" data-answer="2">5th June 2025</button>
+            <button class="quiz-option" data-answer="3">20th August 2025</button>
+            <button class="quiz-option" data-answer="4">1st September 2025</button>
+          </div>
+          <button class="btn btn-primary submit-btn" id="submit-btn">Submit 💕</button>
+        </div>
+
+        <div id="feedback">
+          <div class="feedback-icon" id="feedback-icon"></div>
+          <h3 class="feedback-title" id="feedback-title"></h3>
+          <p class="feedback-msg" id="feedback-msg"></p>
+          <button class="btn btn-outline" id="next-btn" style="margin-top: 20px;">Next Question</button>
+        </div>
+      </div>
+
+      <div id="quiz-complete">
+        <span class="complete-emoji">🎉</span>
+        <h2 class="complete-title">You Know Me So Well! ❤️</h2>
+        <p class="complete-subtitle">You passed the love test! Here's your special surprise...</p>
+        <a href="letter.html" class="btn btn-primary">Open Your Surprise 💝</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-heart">❤️💕💖💗💝</div>
+    <p>Trisha &amp; Prosun<br><strong>Forever &amp; Always ❤️</strong></p>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top" aria-label="Back to top">↑</button>
+
+  <script src="script.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        setTimeout(() => loader.remove(), 600);
+      }, 700);
+    });
+  </script>
+</body>
+</html>

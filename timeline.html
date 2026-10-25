@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Journey Timeline | Trisha & Prosun</title>
+  <meta name="description" content="365 Days of Love - Our relationship timeline from Prosun to Trisha">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="page-loader" id="page-loader">
+    <div class="loader-heart">💕</div>
+    <div class="loader-text">Tracing our journey...</div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">💕 TP</a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+        <li><a href="timeline.html" class="active">Journey</a></li>
+        <li><a href="memories.html">Memories</a></li>
+        <li><a href="letter.html">Letter</a></li>
+        <li><a href="music.html">Song</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="nav-toggle" id="nav-toggle">
+          <span></span><span></span><span></span>
+        </button>
+        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="timeline-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title text-gradient">Our Journey Together 💕</h2>
+        <div class="divider"></div>
+        <p class="section-subtitle">365 Days of Love, Laughter, and Us. ❤️</p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content left">
+            <span class="timeline-date">November 2024</span>
+            <h3>First Text 💬</h3>
+            <p>The day our story stepped out of our chats and into real life. ❤️</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content right">
+            <span class="timeline-date">Early 2025</span>
+            <h3>You Confessed 🎬</h3>
+            <p>You told me you liked me... My heart skipped a beat. 🤔</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content left">
+            <span class="timeline-date">4-5 Months</span>
+            <h3>Your Patience 📸</h3>
+            <p>You waited for me patiently... I appreciate every moment. ⏳</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content right">
+            <span class="timeline-date">9th July 2025</span>
+            <h3>I Said "Yes" 💑</h3>
+            <p>The most beautiful chapter of our story began that day. 📅</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content left">
+            <span class="timeline-date">10th July 2025</span>
+            <h3>First Meet 🌹</h3>
+            <p>Finally met in person... Our first real encounter together. 💝</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content right">
+            <span class="timeline-date">2025 - 2026</span>
+            <h3>Our Journey 🎂</h3>
+            <p>Sweet moments, tears, laughter... Every day with you is a gift. ✨</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content left featured">
+            <span class="timeline-date">TODAY!</span>
+            <h3>1 Year Anniversary 🎉</h3>
+            <p>365 days of love! Happy Anniversary, my love. ❤️</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-heart">❤️💕💖💗💝</div>
+    <p>Trisha &amp; Prosun<br><strong>Forever &amp; Always ❤️</strong></p>
+  </footer>
+
+  <button class="back-to-top" id="back-to-top" aria-label="Back to top">↑</button>
+
+  <script src="script.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const loader = document.getElementById('page-loader');
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        setTimeout(() => loader.remove(), 600);
+      }, 700);
+    });
+  </script>
+</body>
+</html>
