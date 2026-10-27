@@ -198,3 +198,8 @@ Day 26: Recorded unforgettable reactions and joy from October 25 anniversary.
 **feat: add subtle heart bounce animation to nav logo**
 
 Day 26 (Eve): Added gentle breathing pulse animation to P & T badge.
+
+### October 27, 2026 — 14:00:00
+**style: improve card contrast under candlelight theme**
+
+Day 27: Tuned text-secondary color for higher readability in dark mode.
