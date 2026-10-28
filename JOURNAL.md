@@ -203,3 +203,8 @@ Day 26 (Eve): Added gentle breathing pulse animation to P & T badge.
 **style: improve card contrast under candlelight theme**
 
 Day 27: Tuned text-secondary color for higher readability in dark mode.
+
+### October 28, 2026 — 12:30:00
+**perf: reduce canvas draw calls during background tabs**
+
+Day 28: Conserved battery life on mobile devices when tab is inactive.
