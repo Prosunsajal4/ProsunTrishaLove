@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Anniversary, My Baby Trisha 💕 | Made with love by Prosun</title>
-  <meta name="description" content="A handcrafted romantic sanctuary built by Prosun for his dearest baby Trisha — celebrating their love story with timers, love letters, memories, and music.">
+  <meta name="description" content="A handcrafted romantic sanctuary built by Prosun for his dearest baby Trisha — celebrating their love story with timers, star constellations, dreams bucket list, love letters, and music.">
   <meta name="author" content="Prosun">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
   <link rel="stylesheet" href="style.css">
@@ -65,7 +65,7 @@
       <!-- Dual Love Counters -->
       <div class="love-stats-grid">
         <!-- Countup: Days in Love -->
-        <div class="countdown-box">
+        <div class="countdown-box tilt-card">
           <div class="countdown-box-title">Together In Love 💕</div>
           <div class="countdown-box-subtitle">Since the unforgettable day — 10th October 2025</div>
           <div class="countdown">
@@ -77,7 +77,7 @@
         </div>
 
         <!-- Countdown: Next Anniversary Milestone -->
-        <div class="countdown-box">
+        <div class="countdown-box tilt-card">
           <div class="countdown-box-title">Next Anniversary Celebration 🎉</div>
           <div class="countdown-box-subtitle">Counting down to our next 25th October milestone!</div>
           <div class="countdown">
@@ -117,7 +117,7 @@
       </div>
 
       <!-- Interactive "Why I Love You" Generator -->
-      <div class="love-notes-card">
+      <div class="love-notes-card tilt-card">
         <span class="love-note-badge">Reasons Why Prosun Loves Trisha ❤️</span>
         <div class="love-note-text" id="love-note-text">
           "The way your eyes crinkle with pure happiness whenever you laugh with me. 💕"
@@ -125,6 +125,114 @@
         <button class="btn btn-outline" id="next-love-note-btn" style="padding: 10px 24px; font-size: 0.9rem;">
           Give Me Another Reason 💕
         </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Love Constellation Sky Section -->
+  <section class="section-padding" style="border-top: 1px solid var(--border-light); background: radial-gradient(circle at 50% 20%, rgba(219,39,119,0.04) 0%, transparent 70%);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Interactive Celestial Map</span>
+        <h2 class="section-title text-gradient">Our Love Constellation Sky 🌌</h2>
+        <div class="divider"></div>
+        <p class="section-subtitle">
+          Hover over each glowing star to illuminate our milestones. Click any star to send a cosmic heartbeat of love!
+        </p>
+      </div>
+
+      <div class="constellation-wrapper">
+        <div class="constellation-overlay">
+          <span class="constellation-title">The Prosun &amp; Trisha Constellation</span>
+          <span class="constellation-badge">✨ Tap or Hover Stars</span>
+        </div>
+        <canvas id="constellation-canvas"></canvas>
+        <div class="constellation-tooltip" id="constellation-tooltip">
+          Hover over any star to reveal our sacred memories ✨
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Couple's Bucket List & Future Dreams -->
+  <section class="section-padding" style="border-top: 1px solid var(--border-light);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Together Forever</span>
+        <h2 class="section-title text-gradient">Our Future Dreams &amp; Bucket List 💫</h2>
+        <div class="divider"></div>
+        <p class="section-subtitle">
+          The adventures, cozy moments, and memories we are going to build hand in hand. Tap an item to check it off or add a new dream together!
+        </p>
+      </div>
+
+      <div class="bucket-list-card tilt-card">
+        <div class="bucket-progress-wrapper">
+          <div class="bucket-progress-meta">
+            <span>Dreams Manifested</span>
+            <span id="bucket-progress-text">3 of 8 Dreams in Motion (38%) ✨</span>
+          </div>
+          <div class="bucket-progress-track">
+            <div class="bucket-progress-bar" id="bucket-progress-bar"></div>
+          </div>
+        </div>
+
+        <div class="bucket-grid" id="bucket-grid">
+          <!-- Dynamically populated by script.js -->
+        </div>
+
+        <form class="bucket-add-form" id="bucket-add-form">
+          <input type="text" class="bucket-input" id="bucket-input" placeholder="Add a new dream to our future together... 💕" required>
+          <button type="submit" class="btn btn-primary" style="padding: 12px 28px;">Add Dream ✨</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Digital Time Capsule to 2030 -->
+  <section class="section-padding" style="border-top: 1px solid var(--border-light);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Future Memory Vault</span>
+        <h2 class="section-title text-gradient">Our 2030 Digital Time Capsule ⏳</h2>
+        <div class="divider"></div>
+        <p class="section-subtitle">
+          Sealed with an eternal promise for our future milestone. Unlock with our secret pass to peek into Prosun's promise to future Trisha.
+        </p>
+      </div>
+
+      <div class="capsule-card tilt-card">
+        <div class="capsule-icon-wrapper">
+          <span>🔐</span>
+        </div>
+        <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 8px;">The 2030 Milestone Vault</h3>
+        <p style="color: var(--text-secondary); max-width: 580px; margin: 0 auto 16px;">
+          Counting down to July 9, 2030 — celebrating 5+ beautiful years of an unbreakable soul connection.
+        </p>
+
+        <div class="capsule-countdown">
+          <div><strong id="capsule-days">1300+</strong> <small style="display:block; font-size:0.75rem; color:var(--text-muted);">Days</small></div>
+          <div><strong id="capsule-hours">00</strong> <small style="display:block; font-size:0.75rem; color:var(--text-muted);">Hours</small></div>
+          <div><strong id="capsule-mins">00</strong> <small style="display:block; font-size:0.75rem; color:var(--text-muted);">Mins</small></div>
+        </div>
+
+        <div>
+          <button class="btn btn-primary" id="capsule-unlock-btn">
+            <span>🔓</span> Unlock Capsule with Secret Pass
+          </button>
+        </div>
+
+        <div class="capsule-revealed-content" id="capsule-content">
+          <h4 style="font-family: 'Dancing Script', cursive; font-size: 2rem; color: var(--pink-primary); margin-bottom: 12px;">
+            A Note from Prosun to Future Trisha ❤️
+          </h4>
+          <p style="font-size: 1.05rem; line-height: 1.8; color: var(--text-primary); max-width: 650px; margin: 0 auto 16px;">
+            "If you are reading this in 2030, my love: look at how far we have come. We conquered every bug, built our dreams, laughed through every season, and my heart still skips a beat every time I see your face. No matter how many years pass, you will always be my sweetest baby Trisha."
+          </p>
+          <div style="font-weight: 700; color: var(--pink-primary);">
+            Forever &amp; Endlessly, Your Prosun 💕
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -142,7 +250,7 @@
       <div class="timeline">
         <div class="timeline-item reveal">
           <div class="timeline-marker"></div>
-          <div class="timeline-content">
+          <div class="timeline-content tilt-card">
             <span class="timeline-date-badge">November 2024</span>
             <h3>The First Text 💬</h3>
             <p>Where our destiny quietly took shape. A simple greeting that sparked the most meaningful bond of my life.</p>
@@ -151,7 +259,7 @@
 
         <div class="timeline-item reveal">
           <div class="timeline-marker"></div>
-          <div class="timeline-content">
+          <div class="timeline-content tilt-card">
             <span class="timeline-date-badge">Early 2025</span>
             <h3>Your Sweet Confession 🎬</h3>
             <p>You opened your heart and told me you liked me... My heart skipped countless beats that day.</p>
@@ -160,7 +268,7 @@
 
         <div class="timeline-item reveal">
           <div class="timeline-marker"></div>
-          <div class="timeline-content">
+          <div class="timeline-content tilt-card">
             <span class="timeline-date-badge">4-5 Months of Patience</span>
             <h3>Your Unwavering Patience ⏳</h3>
             <p>You stayed patient, kind, and devoted for 4-5 months while I took my time. Your gentleness won my whole soul.</p>
@@ -169,7 +277,7 @@
 
         <div class="timeline-item reveal">
           <div class="timeline-marker"></div>
-          <div class="timeline-content featured">
+          <div class="timeline-content featured tilt-card">
             <span class="timeline-date-badge">9th July 2025</span>
             <h3>I Said "YES!" 💍</h3>
             <p>The turning point of our lives! I made the best decision ever: to be yours completely and endlessly.</p>
@@ -178,7 +286,7 @@
 
         <div class="timeline-item reveal">
           <div class="timeline-marker"></div>
-          <div class="timeline-content">
+          <div class="timeline-content tilt-card">
             <span class="timeline-date-badge">10th July 2025</span>
             <h3>Our First In-Person Meet 🌹</h3>
             <p>Stepping out of screens and into real life. Seeing you in person took my breath away.</p>

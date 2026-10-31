@@ -62,6 +62,7 @@
         <button class="filter-btn" data-filter="firsts">Our Firsts 🌹</button>
         <button class="filter-btn" data-filter="dates">Special Celebrations 🌸</button>
         <button class="filter-btn" data-filter="daily">Everyday Love ☕</button>
+        <button class="filter-btn" id="add-memory-btn" style="background: linear-gradient(135deg, var(--pink-primary), #f59e0b); color: #fff; border-color: transparent;">+ Add Memory 📸</button>
       </div>
 
       <!-- Polaroid Grid -->
@@ -180,6 +181,47 @@
       </div>
     </div>
   </section>
+
+  
+  <!-- Add Memory Modal -->
+  <div class="memory-add-modal" id="memory-add-modal">
+    <div class="memory-add-box">
+      <button class="lightbox-close" id="memory-add-close" style="top: 14px; right: 18px;">&times;</button>
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.5rem; margin-bottom: 16px; color: var(--pink-primary);">Add Our Memory 📸</h3>
+      <form id="memory-add-form">
+        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Memory Emoji / Icon</label>
+        <select id="new-mem-emoji">
+          <option value="🌹">🌹 Rose of First Meet</option>
+          <option value="☕">☕ Cozy Coffee Date</option>
+          <option value="🌸">🌸 Pujo Elegance</option>
+          <option value="💍">💍 Saying YES</option>
+          <option value="🌙">🌙 Late Night Whispers</option>
+          <option value="🚗">🚗 Sunset Long Drive</option>
+          <option value="🎁">🎁 Sweet Surprise</option>
+          <option value="🍫">🍫 Sweet Treats</option>
+          <option value="🏖️">🏖️ Beach Walk</option>
+        </select>
+
+        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Date / Occasion</label>
+        <input type="text" id="new-mem-date" placeholder="e.g. Autumn Evening, October 2026" required>
+
+        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Memory Title</label>
+        <input type="text" id="new-mem-title" placeholder="e.g. Laughing by the Lakeside" required>
+
+        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Category</label>
+        <select id="new-mem-category">
+          <option value="daily">Everyday Love ☕</option>
+          <option value="firsts">Our Firsts 🌹</option>
+          <option value="dates">Special Celebrations 🌸</option>
+        </select>
+
+        <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 4px;">Secret Love Note (Shown in Lightbox)</label>
+        <textarea id="new-mem-secret" rows="3" placeholder="Write your secret feeling about this moment..." required></textarea>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">Pin to Our Polaroid Wall 💕</button>
+      </form>
+    </div>
+  </div>
 
   <!-- Lightbox Modal -->
   <div class="lightbox-modal" id="lightbox-modal">

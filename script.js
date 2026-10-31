@@ -631,7 +631,7 @@
     "Being my brilliant Miss Engineer — watching you succeed makes me so proud! 👩‍💻",
     "How cute you look when you're excitedly telling me about your day.",
     "Your sweet messages in the morning that instantly brighten my entire mood.",
-    "The feeling of holding your hand during our first meet � a moment I will treasure forever.",
+    "The feeling of holding your hand during our first meet � a moment I will treasure forever.",
     "How you make ordinary moments feel like something out of a romantic movie.",
     "Your unwavering support whenever I'm working hard or feeling tired.",
     "The warmth in your voice when you say 'I love you, Prosun'.",
@@ -950,6 +950,436 @@
     });
   }
 
+  // ---------------- Interactive Love Constellation Sky ----------------
+  function initConstellation() {
+    const canvas = document.getElementById('constellation-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('constellation-tooltip');
+
+    let width = (canvas.width = canvas.parentElement.clientWidth);
+    let height = (canvas.height = canvas.parentElement.clientHeight);
+
+    window.addEventListener('resize', () => {
+      if (!canvas.parentElement) return;
+      width = canvas.width = canvas.parentElement.clientWidth;
+      height = canvas.height = canvas.parentElement.clientHeight;
+      repositionStars();
+    });
+
+    const rawStars = [
+      { label: 'First Text', date: 'Nov 2024', desc: 'A simple greeting that began our entire world 💬', xRatio: 0.16, yRatio: 0.65 },
+      { label: 'Sweet Confession', date: 'Early 2025', desc: 'When you bravely confessed your feelings 🎬', xRatio: 0.30, yRatio: 0.36 },
+      { label: 'Unwavering Patience', date: '4-5 Months', desc: 'Your gentle care while I took my time ⏳', xRatio: 0.44, yRatio: 0.72 },
+      { label: 'The Big YES!', date: 'July 9, 2025', desc: 'The happiest turning point of our lives 💍', xRatio: 0.50, yRatio: 0.28 },
+      { label: 'First In-Person Meet', date: 'July 10, 2025', desc: 'When I finally saw your dazzling smile 🌹', xRatio: 0.58, yRatio: 0.68 },
+      { label: 'Our Anniversary', date: 'Oct 25, 2026', desc: 'Celebrating our eternal love milestone 🎉', xRatio: 0.72, yRatio: 0.35 },
+      { label: 'Infinite Future', date: 'Forever & Always', desc: 'Growing old together with endless smiles 💖', xRatio: 0.86, yRatio: 0.60 }
+    ];
+
+    let stars = [];
+    function repositionStars() {
+      stars = rawStars.map(s => ({
+        ...s,
+        x: s.xRatio * width,
+        y: s.yRatio * height,
+        pulse: Math.random() * Math.PI * 2
+      }));
+    }
+    repositionStars();
+
+    const bgDust = [];
+    for (let i = 0; i < 70; i++) {
+      bgDust.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: 0.8 + Math.random() * 1.8,
+        alpha: 0.2 + Math.random() * 0.7,
+        speed: 0.01 + Math.random() * 0.02
+      });
+    }
+
+    let hoveredStar = null;
+
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+
+      let found = null;
+      stars.forEach(s => {
+        const dist = Math.hypot(s.x - mx, s.y - my);
+        if (dist < 22) found = s;
+      });
+
+      if (found !== hoveredStar) {
+        hoveredStar = found;
+        if (hoveredStar) {
+          RomanticAudio.playSoftCue();
+          if (tooltip) {
+            tooltip.innerHTML = '<strong>✨ ' + hoveredStar.label + ' (' + hoveredStar.date + ')</strong><br><span style="font-size:0.82rem; opacity:0.95;">' + hoveredStar.desc + '</span>';
+            tooltip.style.opacity = '1';
+          }
+        } else if (tooltip) {
+          tooltip.innerHTML = 'Hover over any star to reveal our sacred memories ✨';
+        }
+      }
+    });
+
+    canvas.addEventListener('click', () => {
+      if (hoveredStar) {
+        window.fireConfetti(40);
+        RomanticAudio.playSuccessChime();
+      }
+    });
+
+    function draw() {
+      ctx.clearRect(0, 0, width, height);
+
+      bgDust.forEach(d => {
+        d.alpha += Math.sin(Date.now() * d.speed) * 0.01;
+        ctx.fillStyle = 'rgba(255, 235, 245, ' + Math.max(0.1, Math.min(0.9, d.alpha)) + ')';
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.beginPath();
+      for (let i = 0; i < stars.length; i++) {
+        if (i === 0) ctx.moveTo(stars[i].x, stars[i].y);
+        else ctx.lineTo(stars[i].x, stars[i].y);
+      }
+      ctx.strokeStyle = 'rgba(244, 114, 182, 0.45)';
+      ctx.lineWidth = 1.6;
+      ctx.setLineDash([4, 4]);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      stars.forEach(s => {
+        s.pulse += 0.04;
+        const isHovered = s === hoveredStar;
+        const glow = (isHovered ? 14 : 7) + Math.sin(s.pulse) * 2;
+
+        const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, glow * 2.5);
+        grad.addColorStop(0, isHovered ? 'rgba(251, 207, 232, 0.95)' : 'rgba(219, 39, 119, 0.7)');
+        grad.addColorStop(0.5, 'rgba(219, 39, 119, 0.3)');
+        grad.addColorStop(1, 'rgba(219, 39, 119, 0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, glow * 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = isHovered ? '#ffffff' : '#fbcfe8';
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, isHovered ? 5.5 : 3.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.font = isHovered ? '600 12px Plus Jakarta Sans, sans-serif' : '500 10.5px Plus Jakarta Sans, sans-serif';
+        ctx.fillStyle = isHovered ? '#ffffff' : 'rgba(251, 207, 232, 0.85)';
+        ctx.textAlign = 'center';
+        ctx.fillText(s.label, s.x, s.y + (s.yRatio > 0.5 ? -14 : 20));
+      });
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+
+  // ---------------- Couple's Bucket List ----------------
+  function initBucketList() {
+    const container = document.getElementById('bucket-grid');
+    const progressBar = document.getElementById('bucket-progress-bar');
+    const progressText = document.getElementById('bucket-progress-text');
+    const addForm = document.getElementById('bucket-add-form');
+    const addInput = document.getElementById('bucket-input');
+
+    if (!container) return;
+
+    const defaultDreams = [
+      { id: 1, text: 'Watch the Northern Lights dance in the Norway sky together 🌌', done: false },
+      { id: 2, text: 'Stroll hand-in-hand along the Seine in Paris at golden hour 🥐', done: false },
+      { id: 3, text: 'Cook homemade Italian pasta at 1 AM laughing in our dream kitchen 🍝', done: true },
+      { id: 4, text: 'Build our cozy tech-smart sanctuary filled with warmth & memories 🏡', done: true },
+      { id: 5, text: 'Adopt a sweet golden retriever puppy and take him on beach dates 🐕', done: false },
+      { id: 6, text: 'Experience cherry blossom spring in Kyoto together 🌸', done: false },
+      { id: 7, text: 'Go on a midnight road trip singing our favorite songs with open windows 🚗', done: true },
+      { id: 8, text: 'Grow old, wrinkly, and still laugh at each other’s silly jokes 💖', done: false }
+    ];
+
+    let list = [];
+    try {
+      const saved = localStorage.getItem('pt-bucket-list');
+      list = saved ? JSON.parse(saved) : defaultDreams;
+    } catch (e) {
+      list = defaultDreams;
+    }
+
+    function saveAndRender() {
+      try {
+        localStorage.setItem('pt-bucket-list', JSON.stringify(list));
+      } catch (e) {}
+
+      container.innerHTML = '';
+      const completedCount = list.filter(item => item.done).length;
+      const totalCount = list.length;
+      const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+
+      if (progressBar) progressBar.style.width = pct + '%';
+      if (progressText) progressText.textContent = completedCount + ' of ' + totalCount + ' Dreams in Motion (' + pct + '%) ✨';
+
+      list.forEach((item) => {
+        const el = document.createElement('div');
+        el.className = 'bucket-item ' + (item.done ? 'completed' : '');
+        el.innerHTML = '<div class="bucket-checkbox">' + (item.done ? '✓' : '') + '</div><span class="bucket-text">' + item.text + '</span>';
+        el.addEventListener('click', () => {
+          item.done = !item.done;
+          if (item.done) {
+            window.fireConfetti(40);
+            RomanticAudio.playSuccessChime();
+          } else {
+            RomanticAudio.playSoftCue();
+          }
+          saveAndRender();
+        });
+        container.appendChild(el);
+      });
+    }
+
+    if (addForm && addInput) {
+      addForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = addInput.value.trim();
+        if (!val) return;
+        list.push({ id: Date.now(), text: val, done: false });
+        addInput.value = '';
+        window.fireConfetti(30);
+        RomanticAudio.playSoftCue();
+        saveAndRender();
+      });
+    }
+
+    saveAndRender();
+  }
+
+  // ---------------- Digital Time Capsule to 2030 ----------------
+  function initTimeCapsule() {
+    const daysEl = document.getElementById('capsule-days');
+    const hoursEl = document.getElementById('capsule-hours');
+    const minsEl = document.getElementById('capsule-mins');
+    const unlockBtn = document.getElementById('capsule-unlock-btn');
+    const contentEl = document.getElementById('capsule-content');
+
+    const TARGET_2030 = new Date('July 9, 2030 00:00:00').getTime();
+
+    function update() {
+      const diff = Math.max(0, TARGET_2030 - Date.now());
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+      if (daysEl) daysEl.textContent = String(days);
+      if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+      if (minsEl) minsEl.textContent = String(mins).padStart(2, '0');
+    }
+    update();
+    setInterval(update, 60000);
+
+    if (unlockBtn && contentEl) {
+      unlockBtn.addEventListener('click', () => {
+        const pass = prompt('Enter our secret passcode to unlock our future time capsule 🔐 (Hint: Try "TRISHA", "PROSUN", or "1025"):');
+        if (!pass) return;
+        const clean = pass.trim().toLowerCase();
+        if (clean === 'trisha' || clean === 'prosun' || clean === '1025' || clean === 'love' || clean === 'forever') {
+          contentEl.classList.add('active');
+          unlockBtn.style.display = 'none';
+          window.fireConfetti(120);
+          RomanticAudio.playSuccessChime();
+          contentEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          alert('Almost, my love! Remember the hint: try "TRISHA" or "PROSUN" 💕');
+        }
+      });
+    }
+  }
+
+  // ---------------- 3D Card Hover Physics ----------------
+  function initTiltPhysics() {
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    const cards = document.querySelectorAll('.tilt-card, .countdown-box, .memory-card, .love-notes-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const cx = rect.width / 2;
+        const cy = rect.height / 2;
+        const rotX = ((y - cy) / cy) * -6;
+        const rotY = ((x - cx) / cx) * 6;
+        card.style.transform = 'perspective(1000px) rotateX(' + rotX.toFixed(2) + 'deg) rotateY(' + rotY.toFixed(2) + 'deg) translateY(-4px)';
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+  }
+
+
+  // ---------------- Letter Typewriter & Font Mode ----------------
+  function initLetterTypewriter() {
+    const replayBtn = document.getElementById('typewriter-replay-btn');
+    const fontBtn = document.getElementById('font-toggle-btn');
+    const paper = document.getElementById('parchment-paper');
+    if (!paper) return;
+
+    if (fontBtn) {
+      fontBtn.addEventListener('click', () => {
+        paper.classList.toggle('calligraphy-mode');
+        if (paper.classList.contains('calligraphy-mode')) {
+          paper.style.fontFamily = "'Dancing Script', cursive";
+          paper.style.fontSize = "1.35rem";
+          fontBtn.textContent = "Serif Mode 📖";
+        } else {
+          paper.style.fontFamily = "";
+          paper.style.fontSize = "";
+          fontBtn.textContent = "Calligraphy Mode ✒️";
+        }
+        RomanticAudio.playSoftCue();
+      });
+    }
+
+    if (replayBtn) {
+      const paragraphs = Array.from(paper.querySelectorAll('p:not(.letter-instruction)'));
+      const originalTexts = paragraphs.map(p => p.innerHTML);
+
+      replayBtn.addEventListener('click', () => {
+        replayBtn.disabled = true;
+        RomanticAudio.playSoftCue();
+
+        paragraphs.forEach(p => (p.innerHTML = ''));
+        let pIndex = 0;
+
+        function typeNextParagraph() {
+          if (pIndex >= paragraphs.length) {
+            replayBtn.disabled = false;
+            window.fireConfetti(80);
+            RomanticAudio.playSuccessChime();
+            return;
+          }
+
+          const targetP = paragraphs[pIndex];
+          const fullHtml = originalTexts[pIndex];
+          targetP.innerHTML = '<span class="typewriter-cursor"></span>';
+          let charIdx = 0;
+
+          const interval = setInterval(() => {
+            charIdx += 2;
+            if (charIdx >= fullHtml.length) {
+              targetP.innerHTML = fullHtml;
+              clearInterval(interval);
+              pIndex++;
+              setTimeout(typeNextParagraph, 300);
+            } else {
+              targetP.innerHTML = fullHtml.slice(0, charIdx) + '<span class="typewriter-cursor"></span>';
+            }
+          }, 15);
+        }
+
+        typeNextParagraph();
+      });
+    }
+  }
+
+  // ---------------- Custom Memory Adder Modal ----------------
+  function initCustomMemoryModal() {
+    const addBtn = document.getElementById('add-memory-btn');
+    const modal = document.getElementById('memory-add-modal');
+    const closeBtn = document.getElementById('memory-add-close');
+    const form = document.getElementById('memory-add-form');
+    const grid = document.querySelector('.memories-grid');
+
+    if (!addBtn || !modal || !form || !grid) return;
+
+    try {
+      const saved = JSON.parse(localStorage.getItem('pt-custom-memories') || '[]');
+      saved.forEach(renderMemoryCard);
+    } catch (e) {}
+
+    function renderMemoryCard(mem) {
+      const card = document.createElement('div');
+      card.className = 'memory-card reveal tilt-card';
+      card.dataset.category = mem.category || 'daily';
+      card.innerHTML = `
+        <div class="memory-tape"></div>
+        <div class="memory-image-container">
+          <span class="memory-emoji-display">${mem.emoji}</span>
+        </div>
+        <div class="memory-body">
+          <span class="memory-date">${mem.date}</span>
+          <div class="memory-caption">${mem.title}</div>
+          <div class="memory-secret-note">${mem.secret}</div>
+        </div>
+      `;
+
+      card.addEventListener('click', () => {
+        const lbModal = document.getElementById('lightbox-modal');
+        const mEmoji = document.getElementById('modal-emoji');
+        const mCaption = document.getElementById('modal-caption');
+        const mDate = document.getElementById('modal-date');
+        const mSecret = document.getElementById('modal-secret');
+
+        if (mEmoji) mEmoji.textContent = mem.emoji;
+        if (mCaption) mCaption.textContent = mem.title;
+        if (mDate) mDate.textContent = mem.date;
+        if (mSecret) mSecret.textContent = mem.secret;
+
+        if (lbModal) {
+          lbModal.classList.add('active');
+          RomanticAudio.playSoftCue();
+          window.fireConfetti(30);
+        }
+      });
+
+      grid.prepend(card);
+    }
+
+    addBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+      RomanticAudio.playSoftCue();
+    });
+
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    }
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.classList.remove('active');
+    });
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const emoji = document.getElementById('new-mem-emoji').value;
+      const date = document.getElementById('new-mem-date').value.trim();
+      const title = document.getElementById('new-mem-title').value.trim();
+      const category = document.getElementById('new-mem-category').value;
+      const secret = document.getElementById('new-mem-secret').value.trim();
+
+      const newMem = { emoji, date, title, category, secret, id: Date.now() };
+
+      renderMemoryCard(newMem);
+
+      try {
+        const existing = JSON.parse(localStorage.getItem('pt-custom-memories') || '[]');
+        existing.unshift(newMem);
+        localStorage.setItem('pt-custom-memories', JSON.stringify(existing));
+      } catch (err) {}
+
+      modal.classList.remove('active');
+      form.reset();
+      window.fireConfetti(70);
+      RomanticAudio.playSuccessChime();
+    });
+  }
+
   // ---------------- DOM Ready Initialization ----------------
   document.addEventListener('DOMContentLoaded', () => {
     initLoader();
@@ -969,5 +1399,11 @@
     initLoveLetter();
     initMemories();
     initQuiz();
+    initConstellation();
+    initBucketList();
+    initTimeCapsule();
+    initTiltPhysics();
+    initLetterTypewriter();
+    initCustomMemoryModal();
   });
 })();
