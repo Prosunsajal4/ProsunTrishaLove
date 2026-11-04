@@ -100,6 +100,18 @@ This verifies:
 - CSS brace balance and selector structure
 - Web App Manifest validity
 
+## 📅 Sacred Milestones Celebrated
+
+| Milestone | Exact Date | Significance |
+|---|---|---|
+| First Conversation 💬 | November 19, 2024 | Where our story quietly took root |
+| Sweet Confession 🎬 | Early 2025 | Trisha told Prosun she liked him |
+| Trisha's Patience ⏳ | 4–5 Months | Tender, sincere patience |
+| Relationship Started (She Said YES!) 💍 | 9th July 2025 | We officially entered our relationship |
+| First In-Person Meet 🌹 | 10th July 2025 | Stepping out of digital screens & meeting in person |
+| Pujo & Celebrations 🌸 | Autumn 2025 | Traditional beauty & magical memories |
+| Anniversary Milestone 🎉 | 9th & 10th July | Celebrated every year for eternity |
+
 ---
 
 *Made with infinite love by Prosun for his sweetest baby Trisha ❤️*

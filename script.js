@@ -7,24 +7,25 @@
   'use strict';
 
   // ---------------- Relationship Milestones ----------------
-  // She said YES: Oct 10, 2025
-  // First Meet: October 25, 2025 (Anniversary)
-  const START_DATE = new Date('October 10, 2025 00:00:00').getTime();
+  // First Conversation: November 19, 2024
+  // Relationship Started: July 9, 2025
+  // First In-Person Meet: July 10, 2025
+  const START_DATE = new Date('July 9, 2025 00:00:00').getTime();
 
   // Dynamically calculate the NEXT anniversary date (October 25th)
   function getNextAnniversaryDate() {
     const now = new Date();
     let year = now.getFullYear();
-    let target = new Date(`Oct 25, ${year} 00:00:00`);
+    let target = new Date(`July 9, ${year} 00:00:00`);
     if (now.getTime() >= target.getTime()) {
-      target = new Date(`Oct 25, ${year + 1} 00:00:00`);
+      target = new Date(`July 9, ${year + 1} 00:00:00`);
     }
     return target.getTime();
   }
 
   // ---------------- Live Love Counters ----------------
   function initLoveTimers() {
-    // 1. Time Together (Counting Up from October 10, 2025)
+    // 1. Time Together (Counting Up from July 9, 2025)
     const upDays = document.getElementById('countup-days');
     const upHours = document.getElementById('countup-hours');
     const upMins = document.getElementById('countup-mins');
@@ -796,41 +797,41 @@
     const container = document.getElementById('quiz-container');
     if (!container) return;
 
-    const questions = [
+        const questions = [
       {
-        q: 'When did we first meet in person, my baby? 💕',
-        hint: 'Hint: July 2025 — the day our story stepped into real life! 🌹',
+        q: 'When was our very first conversation, my baby? 💬',
+        hint: 'Hint: Late autumn 2024 — the day our story quietly began! ✨',
+        options: ['19th November 2024', '15th December 2024', '10th October 2024', '1st January 2025'],
+        correct: 0,
+        feedback: '19th November 2024! That was the magical day our first conversation began and changed our lives forever. 💬'
+      },
+      {
+        q: 'When did we officially start our relationship? 💍',
+        hint: 'Hint: July 2025 — when she said YES! 💖',
+        options: ['9th July 2025', '15th June 2025', '3rd August 2025', '20th July 2025'],
+        correct: 0,
+        feedback: '9th July 2025! The happiest day of my life when we officially entered our relationship. 💍'
+      },
+      {
+        q: 'When did we first meet in person, my baby? 🌹',
+        hint: 'Hint: Just one day after we came into our relationship! 💑',
         options: ['10th July 2025', '5th June 2025', '20th August 2025', '1st September 2025'],
         correct: 0,
-        feedback: 'Yes! Our first meet was on 10th July 2025. That beautiful moment when I finally saw your radiant smile in person. 💑'
+        feedback: '10th July 2025! Our very first meet in real life. Seeing you in person took my breath away completely. 🌹'
       },
       {
         q: 'How long did you wait for my "YES", baby? 🥰',
-        hint: 'Hint: Think about months of genuine patience! ⏳',
+        hint: 'Hint: Months of pure, gentle patience! ⏳',
         options: ['4-5 Months', '1-2 Months', '6 Months', '8 Months'],
         correct: 0,
-        feedback: 'You waited patiently for 4-5 months for me to say YES. Your patience and sincerity won my heart completely. 💖'
-      },
-      {
-        q: 'When did I officially say "YES" to being yours? 📅',
-        hint: 'Hint: Just one day before our first meet! 🎉',
-        options: ['9th July 2025', '15th June 2025', '3rd August 2025', '20th July 2025'],
-        correct: 0,
-        feedback: '9th July 2025! The happiest day when I said YES, beginning our sweetest journey together. 💍'
-      },
-      {
-        q: "What is Prosun's favorite thing about you, baby? 🌟",
-        hint: 'Hint: What makes your soul so uniquely precious? 🌸',
-        options: ['Your pure kindness & sweet heart', 'Your coding skills', 'Your height', 'Your jokes'],
-        correct: 0,
-        feedback: 'Your pure kindness, warmth, and the way you care so deeply make you my dream girl every single day. 💗'
+        feedback: 'You waited patiently for 4-5 months. Your sincere devotion won my entire heart. 💖'
       },
       {
         q: 'Do you promise to love Prosun forever and always? 💍',
         hint: 'Hint: Answer with all your heart ❤️',
         options: ['Yes, Forever & Always!', 'Maybe...', "I'll try", 'Only on weekends'],
         correct: 0,
-        feedback: 'Forever and always! Prosun loves Trisha to the moon and back, endlessly! ❤️'
+        feedback: 'Forever and always! Prosun loves Trisha to infinity and beyond! ❤️'
       }
     ];
 
@@ -988,12 +989,12 @@
     });
 
     const rawStars = [
-      { label: 'First Text', date: 'Nov 2024', desc: 'A simple greeting that began our entire world 💬', xRatio: 0.16, yRatio: 0.65 },
+      { label: 'First Conversation', date: 'Nov 19, 2024', desc: '19th November 2024 — Our very first conversation that started everything 💬', xRatio: 0.16, yRatio: 0.65 },
       { label: 'Sweet Confession', date: 'Early 2025', desc: 'When you bravely confessed your feelings 🎬', xRatio: 0.30, yRatio: 0.36 },
       { label: 'Unwavering Patience', date: '4-5 Months', desc: 'Your gentle care while I took my time ⏳', xRatio: 0.44, yRatio: 0.72 },
-      { label: 'The Big YES!', date: 'July 9, 2025', desc: 'The happiest turning point of our lives 💍', xRatio: 0.50, yRatio: 0.28 },
-      { label: 'First In-Person Meet', date: 'July 10, 2025', desc: 'When I finally saw your dazzling smile 🌹', xRatio: 0.58, yRatio: 0.68 },
-      { label: 'Our Anniversary', date: 'Oct 25, 2026', desc: 'Celebrating our eternal love milestone 🎉', xRatio: 0.72, yRatio: 0.35 },
+      { label: 'Relationship Started', date: 'July 9, 2025', desc: '9th July 2025 — We officially came into our relationship! 💍', xRatio: 0.50, yRatio: 0.28 },
+      { label: 'First In-Person Meet', date: 'July 10, 2025', desc: '10th July 2025 — Seeing your sweet smile in real life for the first time 🌹', xRatio: 0.58, yRatio: 0.68 },
+      { label: 'Anniversary Milestone', date: 'July 9 & 10', desc: 'Celebrating our eternal relationship milestones 🎉', xRatio: 0.72, yRatio: 0.35 },
       { label: 'Infinite Future', date: 'Forever & Always', desc: 'Growing old together with endless smiles 💖', xRatio: 0.86, yRatio: 0.60 }
     ];
 
@@ -1417,7 +1418,7 @@
       "You are not just my girlfriend; you are my best friend, my soulmate, and my brilliant Miss Engineer! 👩‍💻",
       "No distance, no busy schedule, and no challenge will ever diminish how fiercely and tenderly I cherish you.",
       "Watching you smile is my favorite hobby in the whole universe. Prosun will always be proud of his Trisha! 🌹",
-      "From our very first text in Nov 2024 to infinity, my heart has chosen you in every lifetime.",
+      "From our very first conversation on 19th November 2024 to infinity, my heart has chosen you in every lifetime.",
       "Your gentle patience for 4-5 months won my entire soul. Thank you for never giving up on us. 💍",
       "Even if I had a thousand lifetimes to live, I would spend every single one searching for you all over again.",
       "The warmth in your voice turns every ordinary day into a romantic fairy tale.",
