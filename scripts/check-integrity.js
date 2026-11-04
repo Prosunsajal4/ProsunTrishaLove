@@ -23,7 +23,8 @@ const requiredFiles = [
   'style.css',
   'script.js',
   'vercel.json',
-  'package.json'
+  'package.json',
+  'manifest.json'
 ];
 
 requiredFiles.forEach((file) => {

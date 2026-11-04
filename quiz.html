@@ -2,10 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Love Quiz 💝 | Prosun & Trisha</title>
-  <meta name="description" content="An interactive romantic quiz for Trisha from Prosun — How well do you know our love story?">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💝</text></svg>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Love Story Quiz 💝 | Prosun & Trisha Love Sanctuary</title>
+  <meta name="description" content="How well do you know our romantic journey? Take the interactive love quiz and earn the official Soulmate Certificate!">
+  <meta name="author" content="Prosun">
+  <meta name="theme-color" content="#db2777">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Prosun & Trisha">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://prosuntrishaus.vercel.app/quiz.html">
+  <meta property="og:title" content="Love Story Quiz 💝 | Prosun & Trisha Love Sanctuary">
+  <meta property="og:description" content="How well do you know our romantic journey? Take the interactive love quiz and earn the official Soulmate Certificate!">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop">
+  <meta property="og:site_name" content="Prosun & Trisha Love Sanctuary">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Love Story Quiz 💝 | Prosun & Trisha Love Sanctuary">
+  <meta name="twitter:description" content="How well do you know our romantic journey? Take the interactive love quiz and earn the official Soulmate Certificate!">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -100,6 +122,7 @@
 
             <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
               <a href="letter.html" class="btn btn-primary">Open Your Secret Letter 💌</a>
+              <button class="btn btn-outline" id="print-cert-btn" onclick="window.print();">Save Certificate 🖨️</button>
               <button class="btn btn-outline" id="restart-quiz-btn">Play Quiz Again 🔄</button>
             </div>
           </div>

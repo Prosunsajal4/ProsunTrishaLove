@@ -438,6 +438,8 @@
     let isPlaying = false;
     let melodyTimer = null;
     let masterGain = null;
+    let currentVolume = parseFloat(localStorage.getItem('pt-volume') || '0.75');
+    let currentSoundscape = 'saiyara';
     let realAudio = null;
 
     // Romantic love melody chords & notes (Saiyara-inspired warm ballad)
@@ -468,7 +470,22 @@
     }
 
     // Play a single soft warm romantic chime
+    function setVolume(val) {
+      currentVolume = Math.max(0, Math.min(1, val));
+      try { localStorage.setItem('pt-volume', currentVolume); } catch(e) {}
+      if (realAudio) realAudio.volume = currentVolume;
+    }
+
+    function setSoundscape(mode) {
+      currentSoundscape = mode;
+      if (isPlaying) {
+        stopMelody();
+        startMelody();
+      }
+    }
+
     function playChime(freq, duration, gainVal = 0.08) {
+      gainVal = gainVal * currentVolume;
       if (!audioCtx) return;
       try {
         const osc = audioCtx.createOscillator();
@@ -574,6 +591,7 @@
       if (disc) disc.classList.toggle('playing', active);
       if (visual) visual.classList.toggle('playing', active);
       if (playIcon) playIcon.textContent = active ? '⏸' : '▶';
+      document.querySelectorAll('.equalizer-bar').forEach(b => b.classList.toggle('playing', active));
       if (mainBtn) {
         mainBtn.innerHTML = active ? '<span>⏸</span> Pause Our Song' : '<span>▶</span> Play Our Song';
       }
@@ -581,6 +599,8 @@
 
     return {
       toggle,
+      setVolume,
+      setSoundscape,
       playSuccessChime,
       playSoftCue,
       getState: () => isPlaying
@@ -1380,6 +1400,144 @@
     });
   }
 
+
+  // ---------------- Daily Romantic Love Locket ----------------
+  function initLoveLocket() {
+    const locketIcon = document.getElementById('locket-icon');
+    const refreshBtn = document.getElementById('locket-refresh-btn');
+    const textEl = document.getElementById('locket-fortune-text');
+    const dateEl = document.getElementById('locket-fortune-date');
+    const statusEl = document.getElementById('locket-status');
+
+    if (!locketIcon || !textEl) return;
+
+    const FORTUNES = [
+      "Every single heartbeat of mine quietly whispers your name, my baby Trisha. You are my forever home. 💕",
+      "I love how your laugh lights up even my darkest days. Loving you is the easiest, sweetest thing I have ever done.",
+      "You are not just my girlfriend; you are my best friend, my soulmate, and my brilliant Miss Engineer! 👩‍💻",
+      "No distance, no busy schedule, and no challenge will ever diminish how fiercely and tenderly I cherish you.",
+      "Watching you smile is my favorite hobby in the whole universe. Prosun will always be proud of his Trisha! 🌹",
+      "From our very first text in Nov 2024 to infinity, my heart has chosen you in every lifetime.",
+      "Your gentle patience for 4-5 months won my entire soul. Thank you for never giving up on us. 💍",
+      "Even if I had a thousand lifetimes to live, I would spend every single one searching for you all over again.",
+      "The warmth in your voice turns every ordinary day into a romantic fairy tale.",
+      "I promise to always hold your hand, celebrate your triumphs, and comfort you through every storm.",
+      "You make ordinary car rides feel like adventures, and simple coffee dates feel like heaven. ☕",
+      "There is no place in the entire world I would rather be than right next to you, looking into your eyes.",
+      "Your sweetness is contagious, your kindness is boundless, and your love is my greatest treasure. ✨",
+      "Happy moments with you are my absolute favorite memories. Forever your proud Mr. Engineer! ❤️"
+    ];
+
+    function revealFortune(customIdx = -1) {
+      let idx;
+      if (customIdx >= 0) {
+        idx = customIdx % FORTUNES.length;
+      } else {
+        // Calculate daily deterministic index based on day of year
+        const now = new Date();
+        const startOfYear = new Date(now.getFullYear(), 0, 0);
+        const diff = now - startOfYear;
+        const oneDay = 1000 * 60 * 60 * 24;
+        const dayOfYear = Math.floor(diff / oneDay);
+        idx = dayOfYear % FORTUNES.length;
+      }
+
+      locketIcon.classList.add('opened');
+      setTimeout(() => locketIcon.classList.remove('opened'), 650);
+
+      textEl.style.opacity = '0';
+      setTimeout(() => {
+        textEl.textContent = '"' + FORTUNES[idx] + '"';
+        textEl.style.opacity = '1';
+        if (dateEl) {
+          const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          dateEl.textContent = 'Special Fortune for ' + dateStr + ' ✨';
+        }
+        if (statusEl) {
+          statusEl.textContent = 'Message unlocked with love from Prosun ❤️';
+        }
+      }, 250);
+
+      window.fireConfetti(45);
+      RomanticAudio.playSuccessChime();
+    }
+
+    locketIcon.addEventListener('click', () => revealFortune());
+
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        const rand = Math.floor(Math.random() * FORTUNES.length);
+        revealFortune(rand);
+      });
+    }
+
+    // Set initial date on load
+    if (dateEl) {
+      const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      dateEl.textContent = 'Today: ' + dateStr + ' ✨';
+    }
+  }
+
+  // ---------------- Music Player Pro (Soundscapes & Volume) ----------------
+  function initMusicPlayerPro() {
+    const soundscapePills = document.querySelectorAll('.soundscape-pill');
+    const volSlider = document.getElementById('master-volume-slider');
+    const volLabel = document.getElementById('volume-pct-label');
+
+    // Restore saved volume
+    const savedVol = localStorage.getItem('pt-volume');
+    if (volSlider && savedVol) {
+      volSlider.value = Math.round(parseFloat(savedVol) * 100);
+      if (volLabel) volLabel.textContent = volSlider.value + '%';
+    }
+
+    if (volSlider) {
+      volSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value, 10) / 100;
+        RomanticAudio.setVolume(val);
+        if (volLabel) volLabel.textContent = e.target.value + '%';
+      });
+    }
+
+    soundscapePills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        soundscapePills.forEach((p) => p.classList.remove('active'));
+        pill.classList.add('active');
+        const mode = pill.dataset.soundscape || 'saiyara';
+        RomanticAudio.setSoundscape(mode);
+        RomanticAudio.playSoftCue();
+        window.fireConfetti(25);
+      });
+    });
+  }
+
+  // ---------------- Timeline Filters ----------------
+  function initTimelineFilters() {
+    const buttons = document.querySelectorAll('[data-timeline-filter]');
+    const items = document.querySelectorAll('.timeline-item');
+    if (!buttons.length || !items.length) return;
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.timelineFilter;
+
+        items.forEach((item) => {
+          const category = item.dataset.timelineCategory;
+          if (filter === 'all' || category === filter) {
+            item.style.display = 'flex';
+            setTimeout(() => item.classList.add('visible'), 50);
+          } else {
+            item.style.display = 'none';
+          }
+        });
+
+        RomanticAudio.playSoftCue();
+      });
+    });
+  }
+
   // ---------------- DOM Ready Initialization ----------------
   document.addEventListener('DOMContentLoaded', () => {
     initLoader();
@@ -1405,5 +1563,8 @@
     initTiltPhysics();
     initLetterTypewriter();
     initCustomMemoryModal();
+    initLoveLocket();
+    initMusicPlayerPro();
+    initTimelineFilters();
   });
 })();

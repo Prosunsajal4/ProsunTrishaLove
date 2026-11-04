@@ -2227,3 +2227,224 @@ body.cursor-active .cursor-outline {
   border-color: var(--pink-primary);
   box-shadow: 0 0 10px var(--pink-glow);
 }
+
+
+/* ========================================================
+   LUXURY SUITE 4.0 — PROFESSIONAL FINISHING TOUCHES
+   ======================================================== */
+
+/* --- Daily Love Locket Card --- */
+.locket-card {
+  max-width: 680px;
+  margin: 36px auto 0;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-xl);
+  padding: 44px 32px;
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.locket-icon {
+  width: 90px;
+  height: 90px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b, #ec4899);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  box-shadow: 0 0 35px rgba(245, 158, 11, 0.45);
+  cursor: pointer;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  user-select: none;
+}
+
+.locket-icon:hover {
+  transform: scale(1.12) rotate(-8deg);
+}
+
+.locket-icon.opened {
+  animation: locket-open 0.6s ease forwards;
+}
+
+@keyframes locket-open {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.25) rotate(12deg); }
+  100% { transform: scale(1); }
+}
+
+.locket-status {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.locket-fortune-box {
+  background: var(--bg-pill);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  margin-top: 16px;
+  transition: var(--transition-normal);
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.locket-fortune-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.28rem;
+  color: var(--text-primary);
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.locket-fortune-date {
+  font-size: 0.8rem;
+  color: var(--pink-primary);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* --- Real Audio Equalizer Bars --- */
+.audio-equalizer {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 24px;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.equalizer-bar {
+  width: 4px;
+  background: linear-gradient(180deg, #ec4899, #f59e0b);
+  border-radius: 2px;
+  height: 4px;
+  transition: height 0.15s ease;
+}
+
+.equalizer-bar.playing {
+  animation: equalize 1.2s infinite ease-in-out alternate;
+}
+
+.equalizer-bar:nth-child(1) { animation-delay: 0.1s; }
+.equalizer-bar:nth-child(2) { animation-delay: 0.3s; }
+.equalizer-bar:nth-child(3) { animation-delay: 0.5s; }
+.equalizer-bar:nth-child(4) { animation-delay: 0.2s; }
+.equalizer-bar:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes equalize {
+  0% { height: 4px; }
+  50% { height: 22px; }
+  100% { height: 10px; }
+}
+
+/* --- Interactive Soundscape Preset Pills --- */
+.soundscape-deck {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 24px 0 20px;
+}
+
+.soundscape-pill {
+  background: var(--bg-pill);
+  border: 1px solid var(--border-light);
+  color: var(--text-primary);
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.soundscape-pill:hover,
+.soundscape-pill.active {
+  background: linear-gradient(135deg, var(--pink-primary), #ec4899);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 4px 18px var(--pink-glow);
+  transform: translateY(-2px);
+}
+
+/* --- Volume & Tonearm Controls --- */
+.player-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 20px auto 10px;
+  max-width: 440px;
+}
+
+.volume-control-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 110px;
+  height: 6px;
+  background: rgba(219, 39, 119, 0.2);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--pink-primary);
+  box-shadow: 0 0 8px var(--pink-glow);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* --- Printable Keepsake Certificate --- */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+  .navbar, .footer, .back-to-top, .floating-sound-dock, #page-loader, .hero-actions, .quiz-card, button {
+    display: none !important;
+  }
+  .certificate-card {
+    border: 4px double #db2777 !important;
+    padding: 60px 40px !important;
+    background: #fff8f9 !important;
+    box-shadow: none !important;
+    max-width: 800px !important;
+    margin: 40px auto !important;
+    page-break-inside: avoid;
+  }
+}

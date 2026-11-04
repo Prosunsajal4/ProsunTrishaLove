@@ -1,0 +1,40 @@
+{
+  "name": "Prosun & Trisha — Love Sanctuary",
+  "short_name": "Prosun & Trisha 💕",
+  "description": "Handcrafted romantic sanctuary celebrating the love story of Prosun and his dearest baby Trisha.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0309",
+  "theme_color": "#db2777",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💖</text></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Love Letter 💌",
+      "url": "./letter.html",
+      "description": "Read Prosun's personal love letter to Trisha"
+    },
+    {
+      "name": "Our Song ♫",
+      "url": "./music.html",
+      "description": "Play Saiyara and romantic soundscapes"
+    },
+    {
+      "name": "Memories Vault 📸",
+      "url": "./memories.html",
+      "description": "Browse polaroids and sweet memories"
+    },
+    {
+      "name": "Love Quiz 💝",
+      "url": "./quiz.html",
+      "description": "Take the anniversary love quiz"
+    }
+  ]
+}

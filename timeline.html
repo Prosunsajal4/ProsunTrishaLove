@@ -2,10 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Our Love Journey | Prosun & Trisha 💕</title>
-  <meta name="description" content="The romantic timeline of Prosun and Trisha — from first text in November 2024 to saying YES and forever after.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📖</text></svg>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Our Love Journey 📖 | Prosun & Trisha Love Sanctuary</title>
+  <meta name="description" content="From our very first text in November 2024 to saying YES, meeting in person, and building our eternal future together — the romantic timeline of Prosun & Trisha.">
+  <meta name="author" content="Prosun">
+  <meta name="theme-color" content="#db2777">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Prosun & Trisha">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://prosuntrishaus.vercel.app/timeline.html">
+  <meta property="og:title" content="Our Love Journey 📖 | Prosun & Trisha Love Sanctuary">
+  <meta property="og:description" content="From our very first text in November 2024 to saying YES, meeting in person, and building our eternal future together — the romantic timeline of Prosun & Trisha.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop">
+  <meta property="og:site_name" content="Prosun & Trisha Love Sanctuary">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Our Love Journey 📖 | Prosun & Trisha Love Sanctuary">
+  <meta name="twitter:description" content="From our very first text in November 2024 to saying YES, meeting in person, and building our eternal future together — the romantic timeline of Prosun & Trisha.">
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1518199266791-5375a83190b7?q=80&w=1200&auto=format&fit=crop">
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -56,11 +78,19 @@
         </p>
       </div>
 
+      <!-- Timeline Filter Pills -->
+      <div class="memories-filter" style="margin-bottom: 40px;">
+        <button class="filter-btn active" data-timeline-filter="all">All Milestones (8) ✨</button>
+        <button class="filter-btn" data-timeline-filter="beginnings">How It Began 💬</button>
+        <button class="filter-btn" data-timeline-filter="turning-points">Turning Points 💍</button>
+        <button class="filter-btn" data-timeline-filter="future">Forever Ahead 🌟</button>
+      </div>
+
       <!-- Timeline Structure -->
       <div class="timeline">
 
         <!-- Milestone 1 -->
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal" data-timeline-category="beginnings">
           <div class="timeline-marker"></div>
           <div class="timeline-content">
             <span class="timeline-date-badge">November 2024</span>
@@ -72,7 +102,7 @@
         </div>
 
         <!-- Milestone 2 -->
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal" data-timeline-category="beginnings">
           <div class="timeline-marker"></div>
           <div class="timeline-content">
             <span class="timeline-date-badge">Early 2025</span>
@@ -84,7 +114,7 @@
         </div>
 
         <!-- Milestone 3 -->
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal" data-timeline-category="beginnings">
           <div class="timeline-marker"></div>
           <div class="timeline-content">
             <span class="timeline-date-badge">4 to 5 Months</span>
@@ -96,7 +126,7 @@
         </div>
 
         <!-- Milestone 4 -->
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal" data-timeline-category="turning-points">
           <div class="timeline-marker"></div>
           <div class="timeline-content featured">
             <span class="timeline-date-badge">9th July 2025</span>
@@ -108,7 +138,7 @@
         </div>
 
         <!-- Milestone 5 -->
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal" data-timeline-category="turning-points">
           <div class="timeline-marker"></div>
           <div class="timeline-content">
             <span class="timeline-date-badge">10th July 2025</span>
@@ -120,7 +150,7 @@
         </div>
 
         <!-- Milestone 6 -->
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal" data-timeline-category="turning-points">
           <div class="timeline-marker"></div>
           <div class="timeline-content">
             <span class="timeline-date-badge">Autumn &amp; Pujo 2025</span>
@@ -132,7 +162,7 @@
         </div>
 
         <!-- Milestone 7 -->
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal" data-timeline-category="future">
           <div class="timeline-marker"></div>
           <div class="timeline-content">
             <span class="timeline-date-badge">Late Night Talks &amp; Giggles</span>
@@ -144,7 +174,7 @@
         </div>
 
         <!-- Milestone 8 -->
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal" data-timeline-category="future">
           <div class="timeline-marker"></div>
           <div class="timeline-content featured">
             <span class="timeline-date-badge">25th October 2026 &amp; FOREVER</span>
