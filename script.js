@@ -443,83 +443,111 @@
     let currentSoundscape = 'saiyara';
     let realAudio = null;
 
-    // Romantic love melody chords & notes (Saiyara-inspired warm ballad)
-    const NOTES = [
-      { f: 523.25, d: 600 }, // C5
-      { f: 587.33, d: 500 }, // D5
-      { f: 659.25, d: 900 }, // E5
-      { f: 587.33, d: 400 }, // D5
-      { f: 523.25, d: 600 }, // C5
-      { f: 493.88, d: 500 }, // B4
-      { f: 440.00, d: 900 }, // A4
-      { f: 493.88, d: 400 }, // B4
-      { f: 523.25, d: 600 }, // C5
-      { f: 659.25, d: 600 }, // E5
-      { f: 783.99, d: 1100 }, // G5
-      { f: 659.25, d: 600 }, // E5
-      { f: 587.33, d: 800 }  // D5
-    ];
-
-    function ensureContext() {
-      if (!audioCtx) {
-        const AC = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AC();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-    }
-
-    // Play a single soft warm romantic chime
-    function setVolume(val) {
-      currentVolume = Math.max(0, Math.min(1, val));
-      try { localStorage.setItem('pt-volume', currentVolume); } catch(e) {}
-      if (realAudio) realAudio.volume = currentVolume;
-    }
-
-    function setSoundscape(mode) {
-      currentSoundscape = mode;
-      if (isPlaying) {
-        stopMelody();
-        startMelody();
-      }
-    }
+    
+    // 4 Distinct Soundscape Melody Tracks
+    const TRACKS = {
+      saiyara: [
+        { f: 523.25, d: 550 }, // C5
+        { f: 587.33, d: 450 }, // D5
+        { f: 659.25, d: 850 }, // E5
+        { f: 587.33, d: 350 }, // D5
+        { f: 523.25, d: 550 }, // C5
+        { f: 493.88, d: 450 }, // B4
+        { f: 440.00, d: 850 }, // A4
+        { f: 493.88, d: 350 }, // B4
+        { f: 523.25, d: 550 }, // C5
+        { f: 659.25, d: 550 }, // E5
+        { f: 783.99, d: 1050 }, // G5
+        { f: 659.25, d: 550 }, // E5
+        { f: 587.33, d: 750 }   // D5
+      ],
+      rain: [
+        { f: 440.00, d: 500 }, // A4
+        { f: 523.25, d: 500 }, // C5
+        { f: 659.25, d: 700 }, // E5
+        { f: 783.99, d: 500 }, // G5
+        { f: 698.46, d: 600 }, // F5
+        { f: 659.25, d: 500 }, // E5
+        { f: 587.33, d: 600 }, // D5
+        { f: 523.25, d: 800 }  // C5
+      ],
+      starlit: [
+        { f: 659.25, d: 600 }, // E5
+        { f: 783.99, d: 600 }, // G5
+        { f: 987.77, d: 900 }, // B5
+        { f: 880.00, d: 500 }, // A5
+        { f: 783.99, d: 600 }, // G5
+        { f: 659.25, d: 600 }, // E5
+        { f: 587.33, d: 500 }, // D5
+        { f: 659.25, d: 900 }  // E5
+      ],
+      sunset: [
+        { f: 392.00, d: 500 }, // G4
+        { f: 493.88, d: 500 }, // B4
+        { f: 587.33, d: 600 }, // D5
+        { f: 783.99, d: 800 }, // G5
+        { f: 659.25, d: 500 }, // E5
+        { f: 523.25, d: 500 }, // C5
+        { f: 659.25, d: 600 }, // E5
+        { f: 783.99, d: 800 }  // G5
+      ]
+    };
 
     function playChime(freq, duration, gainVal = 0.08) {
       gainVal = gainVal * currentVolume;
       if (!audioCtx) return;
       try {
         const osc = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
         const g = audioCtx.createGain();
+        const filter = audioCtx.createBiquadFilter();
+
+        // Warm celestial music box tone
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
+        // Soft harmonic overtone
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(freq * 2, audioCtx.currentTime);
+
+        // Lowpass filter for smooth warmth
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1800, audioCtx.currentTime);
+
+        const g2 = audioCtx.createGain();
+        g2.gain.value = 0.25;
+
         g.gain.setValueAtTime(0, audioCtx.currentTime);
-        g.gain.linearRampToValueAtTime(gainVal, audioCtx.currentTime + 0.06);
+        g.gain.linearRampToValueAtTime(gainVal, audioCtx.currentTime + 0.04);
         g.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
 
-        osc.connect(g);
+        osc.connect(filter);
+        osc2.connect(g2);
+        g2.connect(filter);
+        filter.connect(g);
         g.connect(audioCtx.destination);
 
         osc.start();
+        osc2.start();
         osc.stop(audioCtx.currentTime + duration);
+        osc2.stop(audioCtx.currentTime + duration);
       } catch (e) {}
     }
 
-    // Play synthesized melody continuously
     function startMelody() {
       ensureContext();
       let index = 0;
+      const track = TRACKS[currentSoundscape] || TRACKS.saiyara;
 
       function step() {
         if (!isPlaying) return;
-        const note = NOTES[index];
-        // Play main note
-        playChime(note.f, (note.d / 1000) * 1.5, 0.07);
-        // Play soft acoustic harmony below
-        playChime(note.f * 0.5, (note.d / 1000) * 1.8, 0.03);
+        const note = track[index];
+        // Main melodic voice
+        playChime(note.f, (note.d / 1000) * 1.5, 0.075);
+        // Acoustic sub-voice
+        playChime(note.f * 0.5, (note.d / 1000) * 1.8, 0.035);
 
-        index = (index + 1) % NOTES.length;
+        index = (index + 1) % track.length;
         melodyTimer = setTimeout(step, note.d);
       }
       step();
@@ -621,7 +649,12 @@
         <button class="dock-play-btn" id="dock-play-btn" aria-label="Toggle Romantic Music">▶</button>
         <div class="dock-text">
           <span>Our Love Song ♫</span>
-          <span class="dock-subtext">Saiyara Melody</span>
+          <span class="dock-subtext" id="dock-track-name">Saiyara Melody</span>
+        </div>
+        <div class="audio-equalizer" style="height: 18px; margin-left: 8px;">
+          <div class="equalizer-bar" style="width: 3px;"></div>
+          <div class="equalizer-bar" style="width: 3px;"></div>
+          <div class="equalizer-bar" style="width: 3px;"></div>
         </div>
       `;
       document.body.appendChild(dock);
@@ -738,7 +771,6 @@
 
   // ---------------- Polaroid Memories Filter & Lightbox ----------------
   function initMemories() {
-    const cards = document.querySelectorAll('.memory-card');
     const filterBtns = document.querySelectorAll('.filter-btn');
     const modal = document.getElementById('lightbox-modal');
     const closeBtn = document.getElementById('lightbox-close');
@@ -754,7 +786,7 @@
         btn.classList.add('active');
         const filter = btn.dataset.filter;
 
-        cards.forEach((card) => {
+        document.querySelectorAll('.memory-card').forEach((card) => {
           if (filter === 'all' || card.dataset.category === filter) {
             card.style.display = 'flex';
           } else {
@@ -797,19 +829,19 @@
     const container = document.getElementById('quiz-container');
     if (!container) return;
 
-        const questions = [
+            const questions = [
       {
         q: 'When was our very first conversation, my baby? 💬',
         hint: 'Hint: Late autumn 2024 — the day our story quietly began! ✨',
-        options: ['19th November 2024', '15th December 2024', '10th October 2024', '1st January 2025'],
-        correct: 0,
+        options: ['10th October 2024', '19th November 2024', '15th December 2024', '1st January 2025'],
+        correct: 1,
         feedback: '19th November 2024! That was the magical day our first conversation began and changed our lives forever. 💬'
       },
       {
         q: 'When did we officially start our relationship? 💍',
         hint: 'Hint: July 2025 — when she said YES! 💖',
-        options: ['9th July 2025', '15th June 2025', '3rd August 2025', '20th July 2025'],
-        correct: 0,
+        options: ['15th June 2025', '3rd August 2025', '9th July 2025', '20th July 2025'],
+        correct: 2,
         feedback: '9th July 2025! The happiest day of my life when we officially entered our relationship. 💍'
       },
       {
@@ -822,15 +854,15 @@
       {
         q: 'How long did you wait for my "YES", baby? 🥰',
         hint: 'Hint: Months of pure, gentle patience! ⏳',
-        options: ['4-5 Months', '1-2 Months', '6 Months', '8 Months'],
-        correct: 0,
+        options: ['1-2 Months', '4-5 Months', '6 Months', '8 Months'],
+        correct: 1,
         feedback: 'You waited patiently for 4-5 months. Your sincere devotion won my entire heart. 💖'
       },
       {
         q: 'Do you promise to love Prosun forever and always? 💍',
         hint: 'Hint: Answer with all your heart ❤️',
-        options: ['Yes, Forever & Always!', 'Maybe...', "I'll try", 'Only on weekends'],
-        correct: 0,
+        options: ['Maybe...', 'Yes, Forever & Always! ❤️', "I'll try", 'Only on weekends'],
+        correct: 1,
         feedback: 'Forever and always! Prosun loves Trisha to infinity and beyond! ❤️'
       }
     ];
@@ -1046,6 +1078,33 @@
         }
       }
     });
+
+    
+    // Touch support for mobile phones
+    function handleTouch(e) {
+      if (!e.touches.length) return;
+      const rect = canvas.getBoundingClientRect();
+      const tx = e.touches[0].clientX - rect.left;
+      const ty = e.touches[0].clientY - rect.top;
+
+      let found = null;
+      stars.forEach(s => {
+        const dist = Math.hypot(s.x - tx, s.y - ty);
+        if (dist < 32) found = s;
+      });
+
+      if (found) {
+        hoveredStar = found;
+        RomanticAudio.playSoftCue();
+        if (tooltip) {
+          tooltip.innerHTML = '<strong>✨ ' + hoveredStar.label + ' (' + hoveredStar.date + ')</strong><br><span style="font-size:0.82rem; opacity:0.95;">' + hoveredStar.desc + '</span>';
+          tooltip.style.opacity = '1';
+        }
+        window.fireConfetti(35);
+      }
+    }
+    canvas.addEventListener('touchstart', handleTouch, { passive: true });
+    canvas.addEventListener('touchmove', handleTouch, { passive: true });
 
     canvas.addEventListener('click', () => {
       if (hoveredStar) {
