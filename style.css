@@ -3186,3 +3186,78 @@ body.cursor-active .cursor-outline {
     font-size: 0.85rem;
   }
 }
+
+/* Short displays, including landscape phones and compact tablets */
+@media (max-height: 600px) {
+  .anniversary-gate {
+    min-height: 100svh;
+    padding: max(12px, env(safe-area-inset-top)) 20px max(12px, env(safe-area-inset-bottom));
+  }
+
+  .gate-content {
+    width: min(100%, 680px);
+  }
+
+  .gate-heart {
+    margin-bottom: 6px;
+    font-size: clamp(2.2rem, 9vh, 3.8rem);
+  }
+
+  .gate-kicker,
+  .anniversary-surprise p {
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+  }
+
+  .anniversary-gate h1 {
+    font-size: clamp(1.3rem, 4.5vh, 2rem);
+    line-height: 1.12;
+  }
+
+  .anniversary-gate h1 span {
+    margin-top: 4px;
+    font-size: 1.15em;
+  }
+
+  .gate-message {
+    margin-top: 8px;
+    font-size: clamp(1.15rem, 4.5vh, 1.65rem);
+    line-height: 1.15;
+  }
+
+  .gate-countdown {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    width: min(100%, 440px);
+    margin-top: 14px;
+  }
+
+  .gate-countdown div {
+    padding: 8px 5px;
+    border-radius: 10px;
+  }
+
+  .gate-countdown strong {
+    font-size: clamp(1.15rem, 5vh, 1.8rem);
+  }
+
+  .gate-countdown span {
+    margin-top: 4px;
+    font-size: 0.55rem;
+  }
+
+  .anniversary-surprise h2 {
+    font-size: clamp(2.8rem, 12vh, 5rem);
+  }
+}
+
+@media (max-width: 600px) and (max-height: 600px) {
+  .gate-content {
+    width: min(100%, 420px);
+  }
+
+  .gate-countdown {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(100%, 280px);
+  }
+}
