@@ -33,6 +33,7 @@
       document.body.classList.remove('anniversary-locked');
       gate.classList.add('revealed');
       if (surprise) surprise.removeAttribute('hidden');
+      window.dispatchEvent(new Event('anniversary-revealed'));
       window.setTimeout(() => {
         if (typeof window.fireConfetti === 'function') window.fireConfetti(220);
       }, 350);
@@ -765,9 +766,10 @@
               height: '1',
               videoId: SAIYAARA_VIDEO_ID,
               playerVars: {
-                autoplay: 0,
+                autoplay: 1,
                 controls: 0,
                 playsinline: 1,
+                mute: 1,
                 rel: 0,
                 modestbranding: 1,
                 loop: 1,
@@ -777,6 +779,7 @@
                 onReady: (e) => {
                   try {
                     e.target.setVolume(Math.round(currentVolume * 100));
+                    e.target.mute();
                   } catch (err) {}
                   done(e.target);
                 },
@@ -816,6 +819,32 @@
       })();
 
       return ytPlayerPromise;
+    }
+
+    async function autoplaySaiyaara() {
+      if (currentSoundscape !== 'saiyara' || document.body.classList.contains('anniversary-locked')) return;
+      const yt = await ensureYouTubePlayer();
+      if (!yt || typeof yt.playVideo !== 'function') return;
+      try {
+        yt.mute();
+        yt.playVideo();
+        isPlaying = true;
+        syncUI(true);
+      } catch (e) {
+        isPlaying = false;
+        syncUI(false);
+      }
+    }
+
+    function activateSaiyaaraAudio() {
+      if (!ytPlayer || currentSoundscape !== 'saiyara') return;
+      try {
+        ytPlayer.unMute();
+        ytPlayer.setVolume(Math.round(currentVolume * 100));
+        ytPlayer.playVideo();
+        isPlaying = true;
+        syncUI(true);
+      } catch (e) {}
     }
 
     function isYouTubePlaying() {
@@ -891,7 +920,12 @@
             } catch (err) {}
           }
         }
-        // Start synthetic love theme
+        // Saiyaara must always use the official track, never a substitute melody.
+        if (currentSoundscape === 'saiyara') {
+          isPlaying = false;
+          syncUI(false);
+          return;
+        }
         isPlaying = true;
         startMelody();
         syncUI(true);
@@ -931,6 +965,8 @@
 
     return {
       toggle,
+      autoplaySaiyaara,
+      activateSaiyaaraAudio,
       setVolume,
       setSoundscape,
       playSuccessChime,
@@ -977,6 +1013,16 @@
         RomanticAudio.toggle();
       });
     }
+
+    const startSaiyaara = () => RomanticAudio.autoplaySaiyaara();
+    const activateSaiyaara = () => RomanticAudio.activateSaiyaaraAudio();
+    if (document.body.classList.contains('anniversary-locked')) {
+      window.addEventListener('anniversary-revealed', startSaiyaara, { once: true });
+    } else {
+      startSaiyaara();
+    }
+    window.addEventListener('pointerdown', activateSaiyaara, { once: true, passive: true });
+    window.addEventListener('keydown', activateSaiyaara, { once: true });
   }
 
   // ---------------- Interactive Love Reasons Generator ----------------
