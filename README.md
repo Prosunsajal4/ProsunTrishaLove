@@ -51,7 +51,7 @@ A luxury, interactive romantic web experience celebrating the love story of **Pr
 - **♫ Multi-Soundscape Audio Engine 4.0 & Vinyl Turntable**:
   - Global floating audio player dock with volume slider, master mute, and live animated sound equalizer wave bars.
   - 4 selectable synthesized soundscapes:
-    1. *♫ Saiyara Ballad* (iconic love melody)
+    1. *♫ Saiyaara* — the actual YRF movie title song, streamed straight from our YouTube link
     2. *🌧️ Midnight Rain & Soft Piano*
     3. *🌌 Starlit Lullaby*
     4. *🌅 Golden Sunset Acoustic*
@@ -105,8 +105,8 @@ This verifies:
 | Milestone | Exact Date | Significance |
 |---|---|---|
 | First Conversation 💬 | November 19, 2024 | Where our story quietly took root |
-| Sweet Confession 🎬 | Early 2025 | Trisha told Prosun she liked him |
-| Trisha's Patience ⏳ | 4–5 Months | Tender, sincere patience |
+| Sweet Confession 🎬 | Early 2025 | Prosun told Trisha he liked her |
+| Prosun's Patience ⏳ | 4–5 Months | Tender, sincere waiting for her answer |
 | Relationship Started (She Said YES!) 💍 | 9th July 2025 | We officially entered our relationship |
 | First In-Person Meet 🌹 | 10th July 2025 | Stepping out of digital screens & meeting in person |
 | Pujo & Celebrations 🌸 | Autumn 2025 | Traditional beauty & magical memories |

@@ -11,6 +11,55 @@
   // Relationship Started: July 9, 2025
   // First In-Person Meet: July 10, 2025
   const START_DATE = new Date('July 9, 2025 00:00:00').getTime();
+  const ANNIVERSARY_REVEAL_DATE = new Date(2026, 10, 9, 0, 0, 0, 0).getTime();
+
+  // ---------------- Anniversary Reveal Gate ----------------
+  function initAnniversaryGate() {
+    const gate = document.getElementById('anniversary-gate');
+    if (!gate) return;
+
+    const countdown = {
+      days: document.getElementById('gate-days'),
+      hours: document.getElementById('gate-hours'),
+      minutes: document.getElementById('gate-minutes'),
+      seconds: document.getElementById('gate-seconds')
+    };
+    const surprise = document.getElementById('anniversary-surprise');
+    let revealed = false;
+
+    function reveal() {
+      if (revealed) return;
+      revealed = true;
+      document.body.classList.remove('anniversary-locked');
+      gate.classList.add('revealed');
+      if (surprise) surprise.removeAttribute('hidden');
+      window.setTimeout(() => {
+        if (typeof window.fireConfetti === 'function') window.fireConfetti(220);
+      }, 350);
+      window.setTimeout(() => gate.remove(), 4200);
+    }
+
+    function updateCountdown() {
+      const remaining = ANNIVERSARY_REVEAL_DATE - Date.now();
+      if (remaining <= 0) {
+        reveal();
+        return;
+      }
+
+      const days = Math.floor(remaining / 86400000);
+      const hours = Math.floor((remaining % 86400000) / 3600000);
+      const minutes = Math.floor((remaining % 3600000) / 60000);
+      const seconds = Math.floor((remaining % 60000) / 1000);
+      countdown.days.textContent = String(days).padStart(2, '0');
+      countdown.hours.textContent = String(hours).padStart(2, '0');
+      countdown.minutes.textContent = String(minutes).padStart(2, '0');
+      countdown.seconds.textContent = String(seconds).padStart(2, '0');
+    }
+
+    if (surprise) surprise.setAttribute('hidden', '');
+    updateCountdown();
+    window.setInterval(updateCountdown, 1000);
+  }
 
   // Dynamically calculate the NEXT anniversary date (October 25th)
   function getNextAnniversaryDate() {
@@ -440,8 +489,17 @@
     let melodyTimer = null;
     let masterGain = null;
     let currentVolume = parseFloat(localStorage.getItem('pt-volume') || '0.75');
+    if (!Number.isFinite(currentVolume)) currentVolume = 0.75;
+    currentVolume = Math.min(1, Math.max(0, currentVolume));
     let currentSoundscape = 'saiyara';
     let realAudio = null;
+
+    // Real "Saiyaara" movie song, streamed through the YouTube IFrame API
+    const SAIYAARA_VIDEO_ID = 'BSJa1UytM8w'; // Saiyaara title song (YRF)
+    let ytPlayer = null;
+    let ytApiPromise = null;
+    let ytPlayerPromise = null;
+    let ytUnavailable = false;
 
     
     // 4 Distinct Soundscape Melody Tracks
@@ -493,8 +551,74 @@
       ]
     };
 
+    // Lazily create (or resume) the Web Audio context + master gain bus
+    function ensureContext() {
+      if (!audioCtx) {
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) return null;
+        audioCtx = new Ctx();
+        masterGain = audioCtx.createGain();
+        masterGain.gain.value = currentVolume;
+        masterGain.connect(audioCtx.destination);
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    }
+
+    // Master volume (0..1) — persisted and applied live
+    function setVolume(vol) {
+      const parsed = parseFloat(vol);
+      currentVolume = Number.isFinite(parsed)
+        ? Math.min(1, Math.max(0, parsed))
+        : 0.75;
+      try {
+        localStorage.setItem('pt-volume', String(currentVolume));
+      } catch (e) {}
+      if (masterGain) masterGain.gain.value = currentVolume;
+      if (realAudio) realAudio.volume = currentVolume;
+      if (ytPlayer && typeof ytPlayer.setVolume === 'function') {
+        try {
+          ytPlayer.setVolume(Math.round(currentVolume * 100));
+        } catch (e) {}
+      }
+    }
+
+    // Switch melody theme, restarting instantly if the synth is already playing
+    function setSoundscape(name) {
+      if (!TRACKS[name]) return;
+      const previous = currentSoundscape;
+      currentSoundscape = name;
+
+      if (name === 'saiyara') {
+        // Hand playback over to the real Saiyaara song if music is already running
+        if (isPlaying && previous !== 'saiyara' && !isYouTubePlaying()) {
+          stopMelody();
+          if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+            isPlaying = true;
+            syncUI(true);
+            ytPlayer.playVideo();
+          }
+        }
+      } else {
+        // Pause the real song and continue with the instrumental soundscape
+        const wasPlaying = isPlaying || isYouTubePlaying();
+        if (isYouTubePlaying()) {
+          try {
+            ytPlayer.pauseVideo();
+          } catch (e) {}
+        }
+        if (wasPlaying && (!realAudio || realAudio.paused)) {
+          stopMelody();
+          isPlaying = true;
+          startMelody();
+          syncUI(true);
+        }
+      }
+    }
+
     function playChime(freq, duration, gainVal = 0.08) {
-      gainVal = gainVal * currentVolume;
       if (!audioCtx) return;
       try {
         const osc = audioCtx.createOscillator();
@@ -525,7 +649,7 @@
         osc2.connect(g2);
         g2.connect(filter);
         filter.connect(g);
-        g.connect(audioCtx.destination);
+        g.connect(masterGain || audioCtx.destination);
 
         osc.start();
         osc2.start();
@@ -572,20 +696,199 @@
       setTimeout(() => playChime(523.25, 0.4, 0.05), 100);
     }
 
+    // ---- YouTube backend (real Saiyaara movie song) ----
+    function loadYouTubeApi() {
+      if (ytApiPromise) return ytApiPromise;
+      ytApiPromise = new Promise((resolve) => {
+        if (window.YT && window.YT.Player) {
+          resolve(window.YT);
+          return;
+        }
+        let settled = false;
+        const finish = (val) => {
+          if (settled) return;
+          settled = true;
+          resolve(val);
+        };
+        const previous = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          if (typeof previous === 'function') previous();
+          finish(window.YT);
+        };
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        tag.async = true;
+        tag.onerror = () => {
+          ytApiPromise = null;
+          finish(null);
+        };
+        document.head.appendChild(tag);
+        setTimeout(() => {
+          if (settled) return;
+          ytApiPromise = null; // let the next click retry
+          finish(window.YT && window.YT.Player ? window.YT : null);
+        }, 9000);
+      });
+      return ytApiPromise;
+    }
+
+    function ensureYouTubePlayer() {
+      if (ytUnavailable) return Promise.resolve(null);
+      if (ytPlayer && ytPlayer.getPlayerState) return Promise.resolve(ytPlayer);
+      if (ytPlayerPromise) return ytPlayerPromise;
+
+      ytPlayerPromise = (async () => {
+        const YT = await loadYouTubeApi();
+        if (!YT || !YT.Player) {
+          ytUnavailable = true;
+          return null;
+        }
+
+        let host = document.getElementById('yt-saiyara-player');
+        if (!host) {
+          host = document.createElement('div');
+          host.id = 'yt-saiyara-player';
+          host.style.cssText = 'position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
+          document.body.appendChild(host);
+        }
+
+        const player = await new Promise((resolve) => {
+          let settled = false;
+          const done = (value) => {
+            if (settled) return;
+            settled = true;
+            resolve(value);
+          };
+          try {
+            new YT.Player(host, {
+              width: '1',
+              height: '1',
+              videoId: SAIYAARA_VIDEO_ID,
+              playerVars: {
+                autoplay: 0,
+                controls: 0,
+                playsinline: 1,
+                rel: 0,
+                modestbranding: 1,
+                loop: 1,
+                playlist: SAIYAARA_VIDEO_ID
+              },
+              events: {
+                onReady: (e) => {
+                  try {
+                    e.target.setVolume(Math.round(currentVolume * 100));
+                  } catch (err) {}
+                  done(e.target);
+                },
+                onStateChange: (e) => {
+                  // Only drive the UI while the YouTube backend is the active one
+                  if (currentSoundscape !== 'saiyara' || !window.YT) return;
+                  const State = window.YT.PlayerState;
+                  if (e.data === State.PLAYING) {
+                    isPlaying = true;
+                    syncUI(true);
+                  } else if (e.data === State.PAUSED || e.data === State.ENDED) {
+                    isPlaying = false;
+                    syncUI(false);
+                  }
+                },
+                onError: () => {
+                  ytUnavailable = true;
+                  isPlaying = false;
+                  syncUI(false);
+                  done(null);
+                }
+              }
+            });
+          } catch (err) {
+            done(null);
+          }
+          setTimeout(() => done(null), 10000);
+        });
+
+        if (!player) {
+          ytUnavailable = true;
+          ytPlayerPromise = null;
+          return null;
+        }
+        ytPlayer = player;
+        return ytPlayer;
+      })();
+
+      return ytPlayerPromise;
+    }
+
+    function isYouTubePlaying() {
+      try {
+        return !!(ytPlayer && ytPlayer.getPlayerState && ytPlayer.getPlayerState() === 1);
+      } catch (e) {
+        return false;
+      }
+    }
+
     async function toggle() {
       ensureContext();
       realAudio = document.getElementById('audio');
 
+      // Preferred backend: the real "Saiyaara" movie song, streamed from YouTube
+      if (currentSoundscape === 'saiyara' && !ytUnavailable) {
+        const yt = await ensureYouTubePlayer();
+        if (yt && typeof yt.playVideo === 'function') {
+          stopMelody();
+          if (realAudio && !realAudio.paused) realAudio.pause();
+
+          if (isYouTubePlaying()) {
+            try {
+              yt.pauseVideo();
+            } catch (e) {}
+            isPlaying = false;
+            syncUI(false);
+          } else {
+            isPlaying = true;
+            syncUI(true);
+            try {
+              yt.playVideo();
+            } catch (e) {}
+            // Self-heal if the browser blocks playback (no user gesture yet)
+            setTimeout(() => {
+              try {
+                if (!ytPlayer || currentSoundscape !== 'saiyara' || !isPlaying) return;
+                const state = ytPlayer.getPlayerState();
+                if (state === -1 || state === 2) {
+                  isPlaying = false;
+                  syncUI(false);
+                }
+              } catch (e) {}
+            }, 3500);
+          }
+          return;
+        }
+      }
+
       if (!isPlaying) {
-        // Try real audio first if present and ready
-        if (realAudio && realAudio.src && !realAudio.error) {
+        // Try a real local audio file first if one is actually loadable.
+        // (A 404'd <source> leaves networkState at 3 = NETWORK_NO_SOURCE and
+        //  a play() promise that never settles — so guard both.)
+        const audioSrc = realAudio ? (realAudio.currentSrc || realAudio.src) : '';
+        const localPlayable =
+          audioSrc && !realAudio.error && realAudio.networkState !== 3;
+        if (localPlayable) {
           try {
-            await realAudio.play();
+            realAudio.volume = currentVolume;
+            await Promise.race([
+              realAudio.play(),
+              new Promise((_, reject) =>
+                setTimeout(() => reject(new Error('local audio start timeout')), 3000)
+              )
+            ]);
             isPlaying = true;
             syncUI(true);
             return;
           } catch (e) {
-            // fallback to synth
+            // Local file unavailable — fall through to the synth engine
+            try {
+              realAudio.pause();
+            } catch (err) {}
           }
         }
         // Start synthetic love theme
@@ -649,7 +952,7 @@
         <button class="dock-play-btn" id="dock-play-btn" aria-label="Toggle Romantic Music">▶</button>
         <div class="dock-text">
           <span>Our Love Song ♫</span>
-          <span class="dock-subtext" id="dock-track-name">Saiyara Melody</span>
+          <span class="dock-subtext" id="dock-track-name">Saiyaara • Movie Song</span>
         </div>
         <div class="audio-equalizer" style="height: 18px; margin-left: 8px;">
           <div class="equalizer-bar" style="width: 3px;"></div>
@@ -679,7 +982,7 @@
   // ---------------- Interactive Love Reasons Generator ----------------
   const REASONS = [
     "The way your eyes crinkle with pure happiness whenever you laugh with me. 💕",
-    "How you patiently waited 4-5 whole months for me to say YES — your patience means the world to me.",
+    "How you thought about it gently for 4-5 whole months and then gave me the most beautiful YES — waiting for you was worth every single day. 💕",
     "Your pure and gentle heart that always sees the absolute best in everyone.",
     "The way you call me and make my busiest days feel so calm and peaceful.",
     "Being my brilliant Miss Engineer — watching you succeed makes me so proud! 👩‍💻",
@@ -772,6 +1075,7 @@
   // ---------------- Polaroid Memories Filter & Lightbox ----------------
   function initMemories() {
     const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.memory-card');
     const modal = document.getElementById('lightbox-modal');
     const closeBtn = document.getElementById('lightbox-close');
     const mEmoji = document.getElementById('modal-emoji');
@@ -839,7 +1143,7 @@
       },
       {
         q: 'When did we officially start our relationship? 💍',
-        hint: 'Hint: July 2025 — when she said YES! 💖',
+        hint: 'Hint: July 2025 — when you said YES! 💖',
         options: ['15th June 2025', '3rd August 2025', '9th July 2025', '20th July 2025'],
         correct: 2,
         feedback: '9th July 2025! The happiest day of my life when we officially entered our relationship. 💍'
@@ -852,11 +1156,11 @@
         feedback: '10th July 2025! Our very first meet in real life. Seeing you in person took my breath away completely. 🌹'
       },
       {
-        q: 'How long did you wait for my "YES", baby? 🥰',
+        q: 'How long did I wait for your "YES", baby? 🥰',
         hint: 'Hint: Months of pure, gentle patience! ⏳',
         options: ['1-2 Months', '4-5 Months', '6 Months', '8 Months'],
         correct: 1,
-        feedback: 'You waited patiently for 4-5 months. Your sincere devotion won my entire heart. 💖'
+        feedback: 'I waited patiently for 4-5 months — and your YES was worth every single day of it. 💖'
       },
       {
         q: 'Do you promise to love Prosun forever and always? 💍',
@@ -1022,8 +1326,8 @@
 
     const rawStars = [
       { label: 'First Conversation', date: 'Nov 19, 2024', desc: '19th November 2024 — Our very first conversation that started everything 💬', xRatio: 0.16, yRatio: 0.65 },
-      { label: 'Sweet Confession', date: 'Early 2025', desc: 'When you bravely confessed your feelings 🎬', xRatio: 0.30, yRatio: 0.36 },
-      { label: 'Unwavering Patience', date: '4-5 Months', desc: 'Your gentle care while I took my time ⏳', xRatio: 0.44, yRatio: 0.72 },
+      { label: 'Sweet Confession', date: 'Early 2025', desc: 'When I bravely confessed my feelings 🎬', xRatio: 0.30, yRatio: 0.36 },
+      { label: 'Unwavering Patience', date: '4-5 Months', desc: 'My gentle wait while your heart made up its mind ⏳', xRatio: 0.44, yRatio: 0.72 },
       { label: 'Relationship Started', date: 'July 9, 2025', desc: '9th July 2025 — We officially came into our relationship! 💍', xRatio: 0.50, yRatio: 0.28 },
       { label: 'First In-Person Meet', date: 'July 10, 2025', desc: '10th July 2025 — Seeing your sweet smile in real life for the first time 🌹', xRatio: 0.58, yRatio: 0.68 },
       { label: 'Anniversary Milestone', date: 'July 9 & 10', desc: 'Celebrating our eternal relationship milestones 🎉', xRatio: 0.72, yRatio: 0.35 },
@@ -1316,7 +1620,7 @@
         paper.classList.toggle('calligraphy-mode');
         if (paper.classList.contains('calligraphy-mode')) {
           paper.style.fontFamily = "'Dancing Script', cursive";
-          paper.style.fontSize = "1.35rem";
+          paper.style.fontSize = "1.7rem";
           fontBtn.textContent = "Serif Mode 📖";
         } else {
           paper.style.fontFamily = "";
@@ -1478,7 +1782,7 @@
       "No distance, no busy schedule, and no challenge will ever diminish how fiercely and tenderly I cherish you.",
       "Watching you smile is my favorite hobby in the whole universe. Prosun will always be proud of his Trisha! 🌹",
       "From our very first conversation on 19th November 2024 to infinity, my heart has chosen you in every lifetime.",
-      "Your gentle patience for 4-5 months won my entire soul. Thank you for never giving up on us. 💍",
+      "I waited 4-5 gentle months for your answer, and you were worth every single one. Thank you for never giving up on us. 💍",
       "Even if I had a thousand lifetimes to live, I would spend every single one searching for you all over again.",
       "The warmth in your voice turns every ordinary day into a romantic fairy tale.",
       "I promise to always hold your hand, celebrate your triumphs, and comfort you through every storm.",
@@ -1600,31 +1904,42 @@
 
   // ---------------- DOM Ready Initialization ----------------
   document.addEventListener('DOMContentLoaded', () => {
-    initLoader();
-    initTheme();
-    initScrollProgress();
-    initLoveTimers();
-    initRomanticCanvas();
-    initClickHeartFX();
-    initConfetti();
-    initCursor();
-    initNavbarScroll();
-    initMobileNav();
-    initBackToTop();
-    initReveals();
-    initFloatingAudioDock();
-    initLoveNotesGenerator();
-    initLoveLetter();
-    initMemories();
-    initQuiz();
-    initConstellation();
-    initBucketList();
-    initTimeCapsule();
-    initTiltPhysics();
-    initLetterTypewriter();
-    initCustomMemoryModal();
-    initLoveLocket();
-    initMusicPlayerPro();
-    initTimelineFilters();
+    // Run each initializer in isolation so a failure in one feature
+    // can never silently disable the others (e.g. the live countdowns).
+    const safeInit = (name, fn) => {
+      try {
+        fn();
+      } catch (err) {
+        console.error(`[Prosun & Trisha] ${name} failed to initialize:`, err);
+      }
+    };
+
+    safeInit('Loader', initLoader);
+    safeInit('AnniversaryGate', initAnniversaryGate);
+    safeInit('Theme', initTheme);
+    safeInit('ScrollProgress', initScrollProgress);
+    safeInit('LoveTimers', initLoveTimers);
+    safeInit('RomanticCanvas', initRomanticCanvas);
+    safeInit('ClickHeartFX', initClickHeartFX);
+    safeInit('Confetti', initConfetti);
+    safeInit('Cursor', initCursor);
+    safeInit('NavbarScroll', initNavbarScroll);
+    safeInit('MobileNav', initMobileNav);
+    safeInit('BackToTop', initBackToTop);
+    safeInit('Reveals', initReveals);
+    safeInit('FloatingAudioDock', initFloatingAudioDock);
+    safeInit('LoveNotesGenerator', initLoveNotesGenerator);
+    safeInit('LoveLetter', initLoveLetter);
+    safeInit('Memories', initMemories);
+    safeInit('Quiz', initQuiz);
+    safeInit('Constellation', initConstellation);
+    safeInit('BucketList', initBucketList);
+    safeInit('TimeCapsule', initTimeCapsule);
+    safeInit('TiltPhysics', initTiltPhysics);
+    safeInit('LetterTypewriter', initLetterTypewriter);
+    safeInit('CustomMemoryModal', initCustomMemoryModal);
+    safeInit('LoveLocket', initLoveLocket);
+    safeInit('MusicPlayerPro', initMusicPlayerPro);
+    safeInit('TimelineFilters', initTimelineFilters);
   });
 })();
