@@ -3116,3 +3116,73 @@ body.cursor-active .cursor-outline {
     height: 175px !important;
   }
 }
+
+/* Anniversary gate phone layout */
+@media (max-width: 600px) {
+  .anniversary-gate {
+    min-height: 100dvh;
+    padding: max(24px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+  }
+
+  .gate-content {
+    width: min(100%, 420px);
+  }
+
+  .gate-heart {
+    margin-bottom: 14px;
+    font-size: clamp(2.8rem, 17vw, 4.5rem);
+  }
+
+  .gate-kicker,
+  .anniversary-surprise p {
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+  }
+
+  .anniversary-gate h1 {
+    font-size: clamp(1.45rem, 7.2vw, 2.2rem);
+  }
+
+  .anniversary-gate h1 span {
+    margin-top: 8px;
+    font-size: 1.15em;
+  }
+
+  .gate-message {
+    margin-top: 18px;
+    font-size: clamp(1.3rem, 7vw, 1.8rem);
+  }
+
+  .gate-countdown {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: min(100%, 280px);
+    margin-top: 24px;
+  }
+
+  .gate-countdown div {
+    padding: 11px 6px;
+    border-radius: 12px;
+  }
+
+  .gate-countdown strong {
+    font-size: clamp(1.35rem, 8vw, 1.9rem);
+  }
+
+  .gate-countdown span {
+    margin-top: 6px;
+    font-size: 0.58rem;
+  }
+
+  .anniversary-surprise {
+    width: 100%;
+  }
+
+  .anniversary-surprise h2 {
+    font-size: clamp(3rem, 17vw, 5.2rem);
+  }
+
+  .anniversary-surprise span {
+    font-size: 0.85rem;
+  }
+}
