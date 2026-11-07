@@ -37,7 +37,7 @@ A luxury, interactive romantic web experience celebrating the love story of **Pr
 - **⏳ Digital 2030 Time Capsule**:
   - Countdown to 2030 locked with a secret passcode (`TRISHA`, `PROSUN`, `1025`) unlocking a secret message from Prosun to future Trisha.
 
-### 💌 Keepsakes & Audio
+### 💌 Keepsakes
 - **💌 3D Interactive Love Letter**:
   - Realistic 3D envelope with golden wax seal stamped `P & T`.
   - **Typewriter Re-read Mode**: Watch the letter dynamically typed out in real-time.
@@ -52,22 +52,12 @@ A luxury, interactive romantic web experience celebrating the love story of **Pr
   - A unique 30-second mini-game where Trisha catches floating hearts to grow their shared love garden.
 - **💍 Midnight Proposal Gate**:
   - After the anniversary reveal at midnight, the sanctuary stays locked until Trisha chooses “Yes, forever!”.
-- **♫ Multi-Soundscape Audio Engine 4.0 & Vinyl Turntable**:
-  - Global floating audio player dock with volume slider, master mute, and live animated sound equalizer wave bars.
-  - 4 selectable synthesized soundscapes:
-    1. *♫ Saiyaara* — the actual YRF movie title song, streamed straight from our YouTube link
-    2. *🌧️ Midnight Rain & Soft Piano*
-    3. *🌌 Starlit Lullaby*
-    4. *🌅 Golden Sunset Acoustic*
-  - Spinning vinyl turntable with tonearm movement animation on `music.html`.
-  - Saiyaara handoff opens one named YouTube music tab at the current timestamp when browsing to another sanctuary page, so the song can continue across full-page navigation.
 
 ---
 
 ## 🛠️ Tech Stack & Architecture
 
 - **Frontend**: Vanilla HTML5, Modern CSS3 (Glassmorphism 2.0, CSS Grid, Custom Properties, 3D Transforms), Vanilla JavaScript (ES6+).
-- **Audio Engine**: Web Audio API (Dual-oscillator acoustic synthesizer with gentle envelopes, gain control, and frequency modulation) + HTML5 Audio fallback.
 - **Visual FX**: HTML5 Canvas 2D Context, CSS Keyframe Animations, Web Animations API.
 - **PWA**: Web App Manifest (`manifest.json`) supporting standalone mobile installation.
 - **Workflows & Hosting**: Vercel Production & GitHub Actions CI/CD for automated integrity checks and deployment.

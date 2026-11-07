@@ -1177,68 +1177,11 @@
       setSoundscape,
       playSuccessChime,
       playSoftCue,
-      handoffSaiyaaraForNavigation,
       getState: () => isPlaying
     };
   })();
 
   window.RomanticAudio = RomanticAudio;
-
-  // ---------------- Global Floating Audio Dock ----------------
-  function initFloatingAudioDock() {
-    let dock = document.getElementById('floating-sound-dock');
-    if (!dock) {
-      dock = document.createElement('div');
-      dock.className = 'floating-sound-dock';
-      dock.id = 'floating-sound-dock';
-      dock.innerHTML = `
-        <button class="dock-play-btn" id="dock-play-btn" aria-label="Toggle Romantic Music">▶</button>
-        <div class="dock-text">
-          <span>Our Love Song ♫</span>
-          <span class="dock-subtext" id="dock-track-name">Saiyaara • Movie Song</span>
-        </div>
-        <div class="audio-equalizer" style="height: 18px; margin-left: 8px;">
-          <div class="equalizer-bar" style="width: 3px;"></div>
-          <div class="equalizer-bar" style="width: 3px;"></div>
-          <div class="equalizer-bar" style="width: 3px;"></div>
-        </div>
-      `;
-      document.body.appendChild(dock);
-    }
-
-    const playBtn = document.getElementById('dock-play-btn');
-    if (playBtn) {
-      playBtn.addEventListener('click', () => {
-        RomanticAudio.toggle();
-      });
-    }
-
-    // If on music.html, also hook play-btn
-    const mainBtn = document.getElementById('play-btn');
-    if (mainBtn) {
-      mainBtn.addEventListener('click', () => {
-        RomanticAudio.toggle();
-      });
-    }
-
-    const startSaiyaara = () => RomanticAudio.autoplaySaiyaara();
-    const activateSaiyaara = () => RomanticAudio.activateSaiyaaraAudio();
-    if (document.body.classList.contains('anniversary-locked')) {
-      window.addEventListener('anniversary-revealed', startSaiyaara, { once: true });
-    } else {
-      startSaiyaara();
-    }
-    window.addEventListener('pointerdown', activateSaiyaara, { once: true, passive: true });
-    window.addEventListener('keydown', activateSaiyaara, { once: true });
-
-    document.addEventListener('click', (event) => {
-      if (!(event.target instanceof Element)) return;
-      const link = event.target.closest('a[href]');
-      if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
-      if (link.origin !== window.location.origin) return;
-      RomanticAudio.handoffSaiyaaraForNavigation();
-    });
-  }
 
   // ---------------- Interactive Love Reasons Generator ----------------
   const REASONS = [
@@ -1298,7 +1241,6 @@
     const envelope = document.getElementById('envelope');
     const waxSeal = document.getElementById('wax-seal');
     const paper = document.getElementById('parchment-paper');
-    const replayMusicBtn = document.getElementById('letter-music-btn');
 
     if (!envelope || !paper) return;
 
@@ -1316,12 +1258,6 @@
 
     envelope.addEventListener('click', openLetter);
     if (waxSeal) waxSeal.addEventListener('click', openLetter);
-
-    if (replayMusicBtn) {
-      replayMusicBtn.addEventListener('click', () => {
-        RomanticAudio.toggle();
-      });
-    }
 
     // Shower of love button on letter
     const loveShowerBtn = document.getElementById('shower-love-btn');
@@ -2207,7 +2143,6 @@
     safeInit('MobileNav', initMobileNav);
     safeInit('BackToTop', initBackToTop);
     safeInit('Reveals', initReveals);
-    safeInit('FloatingAudioDock', initFloatingAudioDock);
     safeInit('LoveNotesGenerator', initLoveNotesGenerator);
     safeInit('LoveLetter', initLoveLetter);
     safeInit('Memories', initMemories);

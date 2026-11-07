@@ -20,7 +20,6 @@ const requiredFiles = [
   'quiz.html',
   'game.html',
   'letter.html',
-  'music.html',
   'style.css',
   'script.js',
   'vercel.json',
