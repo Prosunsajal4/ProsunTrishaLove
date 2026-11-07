@@ -1036,6 +1036,12 @@
       }
     }
 
+    function openSaiyaaraOnYouTube() {
+      const url = `https://www.youtube.com/watch?v=${SAIYAARA_VIDEO_ID}`;
+      const opened = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!opened) window.location.href = url;
+    }
+
     async function toggle() {
       ensureContext();
       realAudio = document.getElementById('audio');
@@ -1079,6 +1085,11 @@
           }
           return;
         }
+      }
+
+      if (currentSoundscape === 'saiyara' && ytUnavailable) {
+        openSaiyaaraOnYouTube();
+        return;
       }
 
       if (!isPlaying) {
