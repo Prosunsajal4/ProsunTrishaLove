@@ -1042,6 +1042,22 @@
       if (!opened) window.location.href = url;
     }
 
+    function handoffSaiyaaraForNavigation() {
+      if (currentSoundscape !== 'saiyara' || !isPlaying) return;
+      let seconds = 0;
+      try {
+        if (ytPlayer && typeof ytPlayer.getCurrentTime === 'function') {
+          seconds = Math.max(0, Math.floor(ytPlayer.getCurrentTime()));
+        }
+      } catch (error) {
+        seconds = 0;
+      }
+
+      const url = `https://www.youtube.com/watch?v=${SAIYAARA_VIDEO_ID}${seconds ? `&t=${seconds}s` : ''}`;
+      const playerWindow = window.open(url, 'prosun-trisha-saiyaara');
+      if (!playerWindow) openSaiyaaraOnYouTube();
+    }
+
     async function toggle() {
       ensureContext();
       realAudio = document.getElementById('audio');
@@ -1161,6 +1177,7 @@
       setSoundscape,
       playSuccessChime,
       playSoftCue,
+      handoffSaiyaaraForNavigation,
       getState: () => isPlaying
     };
   })();
@@ -1213,6 +1230,14 @@
     }
     window.addEventListener('pointerdown', activateSaiyaara, { once: true, passive: true });
     window.addEventListener('keydown', activateSaiyaara, { once: true });
+
+    document.addEventListener('click', (event) => {
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest('a[href]');
+      if (!link || link.target === '_blank' || link.hasAttribute('download')) return;
+      if (link.origin !== window.location.origin) return;
+      RomanticAudio.handoffSaiyaaraForNavigation();
+    });
   }
 
   // ---------------- Interactive Love Reasons Generator ----------------

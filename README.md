@@ -60,6 +60,7 @@ A luxury, interactive romantic web experience celebrating the love story of **Pr
     3. *🌌 Starlit Lullaby*
     4. *🌅 Golden Sunset Acoustic*
   - Spinning vinyl turntable with tonearm movement animation on `music.html`.
+  - Saiyaara handoff opens one named YouTube music tab at the current timestamp when browsing to another sanctuary page, so the song can continue across full-page navigation.
 
 ---
 
