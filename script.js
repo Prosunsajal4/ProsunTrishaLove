@@ -12,6 +12,7 @@
   // First In-Person Meet: July 10, 2025
   const START_DATE = new Date('July 9, 2025 00:00:00').getTime();
   const ANNIVERSARY_REVEAL_DATE = new Date(2026, 10, 9, 0, 0, 0, 0).getTime();
+  const PROPOSAL_ACCEPTED_KEY = 'prosun-trisha-proposal-accepted';
 
   // ---------------- Anniversary Reveal Gate ----------------
   function initAnniversaryGate() {
@@ -34,6 +35,7 @@
       gate.classList.add('revealed');
       if (surprise) surprise.removeAttribute('hidden');
       window.dispatchEvent(new Event('anniversary-revealed'));
+      window.setTimeout(showProposalGate, 900);
       window.setTimeout(() => {
         if (typeof window.fireConfetti === 'function') window.fireConfetti(220);
       }, 350);
@@ -60,6 +62,114 @@
     if (surprise) surprise.setAttribute('hidden', '');
     updateCountdown();
     window.setInterval(updateCountdown, 1000);
+  }
+
+  // ---------------- Midnight Proposal Gate ----------------
+  function showProposalGate() {
+    if (document.getElementById('proposal-gate') || localStorage.getItem(PROPOSAL_ACCEPTED_KEY) === 'yes') return;
+
+    const gate = document.createElement('section');
+    gate.id = 'proposal-gate';
+    gate.className = 'proposal-gate';
+    gate.setAttribute('role', 'dialog');
+    gate.setAttribute('aria-modal', 'true');
+    gate.setAttribute('aria-labelledby', 'proposal-title');
+    gate.innerHTML = `
+      <div class="proposal-card">
+        <div class="proposal-ring" aria-hidden="true">💍</div>
+        <p class="proposal-kicker">One very important question</p>
+        <h2 id="proposal-title">Trisha, will you marry me? 💖</h2>
+        <p class="proposal-copy">I choose you in every timeline, every adventure, and every silly little moment. There is only one answer my heart is waiting for.</p>
+        <div class="proposal-actions">
+          <button class="btn btn-primary" id="proposal-yes">Yes, forever! 💍</button>
+          <button class="btn btn-outline proposal-no" id="proposal-no" disabled aria-disabled="true">No</button>
+        </div>
+        <p class="proposal-error" id="proposal-error" role="status">The “No” button is taking a tiny love break. Please choose the forever answer. 💕</p>
+      </div>
+    `;
+    document.body.appendChild(gate);
+    document.body.classList.add('proposal-locked');
+
+    const yesButton = gate.querySelector('#proposal-yes');
+    yesButton.addEventListener('click', () => {
+      localStorage.setItem(PROPOSAL_ACCEPTED_KEY, 'yes');
+      document.body.classList.remove('proposal-locked');
+      gate.classList.add('accepted');
+      window.fireConfetti(180);
+      RomanticAudio.playSuccessChime();
+      window.setTimeout(() => gate.remove(), 850);
+    });
+  }
+
+  function initProposalGate() {
+    if (localStorage.getItem(PROPOSAL_ACCEPTED_KEY) === 'yes') return;
+    if (Date.now() >= ANNIVERSARY_REVEAL_DATE && !document.getElementById('anniversary-gate')) {
+      showProposalGate();
+    }
+  }
+
+  // ---------------- Catch Our Future Hearts ----------------
+  function initHeartGardenGame() {
+      const garden = document.getElementById('heart-garden');
+      const scoreEl = document.getElementById('garden-score');
+      const timeEl = document.getElementById('garden-time');
+      const startButton = document.getElementById('garden-start');
+      const messageEl = document.getElementById('garden-message');
+      if (!garden || !scoreEl || !timeEl || !startButton || !messageEl) return;
+
+      let score = 0;
+      let timeLeft = 30;
+      let timerId = null;
+      let spawnId = null;
+
+      function placeHeart() {
+        const heart = document.createElement('button');
+        heart.className = 'garden-heart';
+        heart.type = 'button';
+        heart.textContent = ['💖', '💕', '💗', '💘'][Math.floor(Math.random() * 4)];
+        heart.setAttribute('aria-label', 'Catch this heart');
+        heart.style.left = `${8 + Math.random() * 84}%`;
+        heart.style.top = `${8 + Math.random() * 78}%`;
+        heart.addEventListener('click', () => {
+          score++;
+          scoreEl.textContent = String(score);
+          heart.remove();
+          RomanticAudio.playSoftCue();
+          placeHeart();
+        }, { once: true });
+        garden.appendChild(heart);
+        window.setTimeout(() => heart.remove(), 1800);
+      }
+
+      function finishGame() {
+        window.clearInterval(timerId);
+        window.clearInterval(spawnId);
+        garden.querySelectorAll('.garden-heart').forEach((heart) => heart.remove());
+        messageEl.textContent = score >= 15
+          ? 'You caught a whole constellation of our love! 🌟'
+          : 'Every heart you caught belongs to our forever. Try again for an even bigger bouquet! 💐';
+        startButton.disabled = false;
+        startButton.textContent = 'Play Again 💕';
+      }
+
+      startButton.addEventListener('click', () => {
+        window.clearInterval(timerId);
+        window.clearInterval(spawnId);
+        score = 0;
+        timeLeft = 30;
+        scoreEl.textContent = '0';
+        timeEl.textContent = '30';
+        messageEl.textContent = 'Catch as many hearts as you can before our date begins! ✨';
+        startButton.disabled = true;
+        startButton.textContent = 'Our hearts are dancing...';
+        placeHeart();
+        spawnId = window.setInterval(placeHeart, 700);
+        timerId = window.setInterval(() => {
+          timeLeft--;
+          timeEl.textContent = String(timeLeft);
+          if (timeLeft <= 0) finishGame();
+        }, 1000);
+      });
   }
 
   // Dynamically calculate the NEXT anniversary date (October 25th)
@@ -661,6 +771,7 @@
 
     function startMelody() {
       ensureContext();
+      stopMelody();
       let index = 0;
       const track = TRACKS[currentSoundscape] || TRACKS.saiyara;
 
@@ -676,6 +787,13 @@
         melodyTimer = setTimeout(step, note.d);
       }
       step();
+    }
+
+    function startFallbackMelody() {
+      ensureContext();
+      isPlaying = true;
+      startMelody();
+      syncUI(true);
     }
 
     function stopMelody() {
@@ -797,8 +915,12 @@
                 },
                 onError: () => {
                   ytUnavailable = true;
-                  isPlaying = false;
-                  syncUI(false);
+                  if (currentSoundscape === 'saiyara') {
+                    startFallbackMelody();
+                  } else {
+                    isPlaying = false;
+                    syncUI(false);
+                  }
                   done(null);
                 }
               }
@@ -844,6 +966,18 @@
         ytPlayer.playVideo();
         isPlaying = true;
         syncUI(true);
+        window.setTimeout(() => {
+          if (!isPlaying || currentSoundscape !== 'saiyara' || !ytPlayer) return;
+          try {
+            const state = ytPlayer.getPlayerState();
+            const currentTime = ytPlayer.getCurrentTime();
+            if (state === 1 && currentTime < 0.5) {
+              ytPlayer.pauseVideo();
+              ytUnavailable = true;
+              startFallbackMelody();
+            }
+          } catch (e) {}
+        }, 1800);
       } catch (e) {}
     }
 
@@ -920,15 +1054,7 @@
             } catch (err) {}
           }
         }
-        // Saiyaara must always use the official track, never a substitute melody.
-        if (currentSoundscape === 'saiyara') {
-          isPlaying = false;
-          syncUI(false);
-          return;
-        }
-        isPlaying = true;
-        startMelody();
-        syncUI(true);
+        startFallbackMelody();
       } else {
         if (realAudio && !realAudio.paused) {
           realAudio.pause();
@@ -1179,41 +1305,41 @@
     const container = document.getElementById('quiz-container');
     if (!container) return;
 
-            const questions = [
+    const questions = [
       {
-        q: 'When was our very first conversation, my baby? 💬',
-        hint: 'Hint: Late autumn 2024 — the day our story quietly began! ✨',
-        options: ['10th October 2024', '19th November 2024', '15th December 2024', '1st January 2025'],
-        correct: 1,
-        feedback: '19th November 2024! That was the magical day our first conversation began and changed our lives forever. 💬'
+        q: 'What should we do first when we become an old married couple? 👵🏻👴🏻',
+        hint: 'Pick the plan with maximum snacks and minimum seriousness.',
+        options: ['Argue over the TV remote', 'Open a tiny dessert café', 'Take a nap together', 'All three, obviously!'],
+        correct: 3,
+        feedback: 'Correct! Our future is officially powered by snacks, naps, and playful arguments. 🍰'
       },
       {
-        q: 'When did we officially start our relationship? 💍',
-        hint: 'Hint: July 2025 — when you said YES! 💖',
-        options: ['15th June 2025', '3rd August 2025', '9th July 2025', '20th July 2025'],
+        q: 'What do I intend to do with you on every rainy day? 🌧️',
+        hint: 'The answer involves music, cuddles, and ignoring responsibilities.',
+        options: ['Dance in the rain', 'Make tea and cuddle', 'Build a blanket fort', 'Yes to the whole rainy-day package!'],
+        correct: 3,
+        feedback: 'Yes to everything! Rainy days are reserved for our blanket-fort empire. ☕'
+      },
+      {
+        q: 'Who gets the last piece of cake in our future home? 🍰',
+        hint: 'There is a very romantic correct answer.',
+        options: ['Whoever reaches it first', 'We split it exactly in half', 'Trisha gets it, Prosun gets a kiss', 'The cake decides'],
         correct: 2,
-        feedback: '9th July 2025! The happiest day of my life when we officially entered our relationship. 💍'
+        feedback: 'Obviously Trisha gets the cake and Prosun gets a kiss. Perfectly fair. 💋'
       },
       {
-        q: 'When did we first meet in person, my baby? 🌹',
-        hint: 'Hint: Just one day after we came into our relationship! 💑',
-        options: ['10th July 2025', '5th June 2025', '20th August 2025', '1st September 2025'],
-        correct: 0,
-        feedback: '10th July 2025! Our very first meet in real life. Seeing you in person took my breath away completely. 🌹'
+        q: 'What is our dream weekend mission? 🗺️',
+        hint: 'A little adventure is better when we get lost together.',
+        options: ['Explore a new city', 'Take 100 silly photos', 'Find the best local food', 'All of the above, with hand-holding'],
+        correct: 3,
+        feedback: 'Exactly! Every adventure is better with your hand in mine and a food stop nearby. 🥰'
       },
       {
-        q: 'How long did I wait for your "YES", baby? 🥰',
-        hint: 'Hint: Months of pure, gentle patience! ⏳',
-        options: ['1-2 Months', '4-5 Months', '6 Months', '8 Months'],
-        correct: 1,
-        feedback: 'I waited patiently for 4-5 months — and your YES was worth every single day of it. 💖'
-      },
-      {
-        q: 'Do you promise to love Prosun forever and always? 💍',
-        hint: 'Hint: Answer with all your heart ❤️',
-        options: ['Maybe...', 'Yes, Forever & Always! ❤️', "I'll try", 'Only on weekends'],
-        correct: 1,
-        feedback: 'Forever and always! Prosun loves Trisha to infinity and beyond! ❤️'
+        q: 'What do I want to keep doing with you forever? ♾️',
+        hint: 'The answer is our entire love story in one sentence.',
+        options: ['Laugh at terrible jokes', 'Grow, travel, and make memories', 'Choose you every day', 'All of these forever and always!'],
+        correct: 3,
+        feedback: 'That is the plan: laugh, grow, wander, and choose you every single day. 💖'
       }
     ];
 
@@ -1962,6 +2088,7 @@
 
     safeInit('Loader', initLoader);
     safeInit('AnniversaryGate', initAnniversaryGate);
+    safeInit('ProposalGate', initProposalGate);
     safeInit('Theme', initTheme);
     safeInit('ScrollProgress', initScrollProgress);
     safeInit('LoveTimers', initLoveTimers);
@@ -1987,5 +2114,6 @@
     safeInit('LoveLocket', initLoveLocket);
     safeInit('MusicPlayerPro', initMusicPlayerPro);
     safeInit('TimelineFilters', initTimelineFilters);
+    safeInit('HeartGardenGame', initHeartGardenGame);
   });
 })();

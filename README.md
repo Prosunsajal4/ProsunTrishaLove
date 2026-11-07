@@ -46,8 +46,12 @@ A luxury, interactive romantic web experience celebrating the love story of **Pr
   - Polaroid-style cards with photo tape and organic tilts.
   - **"+ Add Memory" Modal**: Allows adding custom memories and saving them to local storage.
   - Full-screen lightbox with Prosun's secret thoughts and a *"Send a Kiss 💋"* button.
-- **💝 Interactive Love Quiz 2.0**:
-  - 5 heartfelt questions testing our love story knowledge with hints, confetti, and an official **Printable Keepsake Certificate**.
+- **💝 Our Future Plans**:
+  - 5 playful questions about the funny adventures Prosun wants to share with Trisha, with hints, confetti, and an official **Printable Keepsake Certificate**.
+- **🎮 Heart Garden**:
+  - A unique 30-second mini-game where Trisha catches floating hearts to grow their shared love garden.
+- **💍 Midnight Proposal Gate**:
+  - After the anniversary reveal at midnight, the sanctuary stays locked until Trisha chooses “Yes, forever!”.
 - **♫ Multi-Soundscape Audio Engine 4.0 & Vinyl Turntable**:
   - Global floating audio player dock with volume slider, master mute, and live animated sound equalizer wave bars.
   - 4 selectable synthesized soundscapes:

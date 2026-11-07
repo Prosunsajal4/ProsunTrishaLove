@@ -18,6 +18,7 @@ const requiredFiles = [
   'timeline.html',
   'memories.html',
   'quiz.html',
+  'game.html',
   'letter.html',
   'music.html',
   'style.css',

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Heart Garden 💕 | Prosun & Trisha Love Sanctuary</title>
+  <meta name="description" content="Catch the hearts in Prosun and Trisha's tiny interactive love garden.">
+  <meta name="theme-color" content="#db2777">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💖</text></svg>">
+  <link rel="stylesheet" href="style.css?v=20261106">
+</head>
+<body>
+  <div class="page-loader" id="page-loader">
+    <div class="loader-heart">💖</div>
+    <div class="loader-text">Growing a little heart garden...</div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo"><span>💕 P &amp; T</span><span class="nav-logo-badge">Forever</span></a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="timeline.html">Our Journey</a></li>
+        <li><a href="memories.html">Memories</a></li>
+        <li><a href="quiz.html">Future Fun</a></li>
+        <li><a href="game.html" class="active">Heart Garden</a></li>
+        <li><a href="letter.html">My Letter</a></li>
+        <li><a href="music.html">Our Song</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="icon-btn theme-toggle-btn" id="theme-toggle" aria-label="Toggle Theme" title="Toggle Theme"><span>🌙</span></button>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="section-padding game-page">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">A tiny game made just for you</span>
+        <h1 class="section-title text-gradient">Catch Our Hearts 💕</h1>
+        <div class="divider"></div>
+        <p class="section-subtitle">Catch the moving hearts before the 30-second date timer ends. Every one is a little piece of my love for you.</p>
+      </div>
+
+      <div class="heart-garden-card">
+        <div class="garden-stats" aria-live="polite">
+          <div><strong id="garden-score">0</strong><span>Hearts caught</span></div>
+          <div><strong id="garden-time">30</strong><span>Seconds left</span></div>
+        </div>
+        <div class="heart-garden" id="heart-garden" aria-label="Interactive heart garden"></div>
+        <p class="garden-message" id="garden-message">Ready to collect our forever? Press start and catch the hearts! ✨</p>
+        <button class="btn btn-primary" id="garden-start">Start the love hunt 💘</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-heart">💖💕💗</div>
+    <p>Created with love by <strong>Prosun</strong> for his baby <strong>Trisha</strong>.<br><strong>Forever &amp; Always — Your Mr. Engineer ❤️</strong></p>
+  </footer>
+  <button class="back-to-top" id="back-to-top" aria-label="Scroll Back to Top">↑</button>
+  <script src="script.js"></script>
+</body>
+</html>

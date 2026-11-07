@@ -32,9 +32,14 @@
       "description": "Browse polaroids and sweet memories"
     },
     {
-      "name": "Love Quiz 💝",
+      "name": "Future Fun 💝",
       "url": "./quiz.html",
-      "description": "Take the anniversary love quiz"
+      "description": "Answer playful questions about our future together"
+    },
+    {
+      "name": "Heart Garden 💕",
+      "url": "./game.html",
+      "description": "Catch hearts in our tiny love game"
     }
   ]
 }
