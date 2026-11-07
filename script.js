@@ -1426,33 +1426,44 @@
         day: 'numeric'
       });
       const lines = [
+        'CERTIFICATE OF APPRECIATION',
         'BEST WIFE & BEST FRIEND',
-        'CERTIFICATE OF FOREVER',
-        'This certificate is lovingly awarded to',
+        'This certificate is proudly presented to',
         'TRISHA',
-        "for being Prosun's favorite adventure partner,",
-        'best friend, safest place, and forever person.',
+        "for being Prosun's favorite adventure partner, best friend,",
+        'safest place, and forever person.',
         `Issued with infinite love on ${date}`,
         'Every answer saved. Every promise cherished.',
-        'PROSUN & TRISHA - FOREVER AND ALWAYS'
+        'PROSUN & TRISHA  |  FOREVER AND ALWAYS'
       ];
       const commands = [
         'q',
-        '0.10 0.02 0.08 rg 0 0 842 595 re f',
-        '0.98 0.72 0.20 RG 24 w 24 24 794 547 re S',
-        '0.93 0.30 0.55 rg 60 60 722 475 re f',
-        '0.16 0.03 0.12 rg 80 80 682 435 re f',
-        '0.98 0.72 0.20 RG 3 w 105 105 632 385 re S',
+        '0.97 0.95 0.89 rg 0 0 842 595 re f',
+        '0.10 0.16 0.25 rg 0 0 842 18 re f',
+        '0.10 0.16 0.25 rg 0 577 842 18 re f',
+        '0.83 0.62 0.20 RG 3 w 28 28 786 539 re S',
+        '0.83 0.62 0.20 RG 1 w 40 40 762 515 re S',
+        '0.10 0.16 0.25 rg 56 56 730 3 re f',
+        '0.10 0.16 0.25 rg 56 536 730 3 re f',
         'Q',
-        'BT /F1 23 Tf 0.98 0.82 0.38 rg 256 470 Td (' + pdfText(lines[0]) + ') Tj ET',
-        'BT /F2 12 Tf 0.96 0.82 0.90 rg 293 445 Td (' + pdfText(lines[1]) + ') Tj ET',
-        'BT /F1 12 Tf 0.98 0.88 0.94 rg 291 365 Td (' + pdfText(lines[2]) + ') Tj ET',
-        'BT /F3 42 Tf 0.98 0.72 0.84 rg 309 305 Td (' + pdfText(lines[3]) + ') Tj ET',
-        'BT /F2 13 Tf 0.98 0.88 0.94 rg 206 255 Td (' + pdfText(lines[4]) + ') Tj ET',
-        'BT /F2 13 Tf 0.98 0.88 0.94 rg 255 232 Td (' + pdfText(lines[5]) + ') Tj ET',
-        'BT /F2 11 Tf 0.85 0.68 0.78 rg 302 175 Td (' + pdfText(lines[6]) + ') Tj ET',
-        'BT /F2 10 Tf 0.85 0.68 0.78 rg 300 145 Td (' + pdfText(lines[7]) + ') Tj ET',
-        'BT /F1 11 Tf 0.98 0.72 0.84 rg 298 112 Td (' + pdfText(lines[8]) + ') Tj ET'
+        '0.83 0.62 0.20 rg 421 490 m 451 475 l 421 460 l 391 475 l h f',
+        '0.10 0.16 0.25 rg 421 490 m 426 480 l 437 480 l 428 473 l 432 462 l 421 468 l 410 462 l 414 473 l 405 480 l 416 480 l h f',
+        '0.83 0.62 0.20 RG 2 w 365 184 m 477 184 l S',
+        '0.10 0.16 0.25 RG 1 w 175 96 m 330 96 l S',
+        '0.10 0.16 0.25 RG 1 w 512 96 m 667 96 l S',
+        'BT /F1 11 Tf 0.10 0.16 0.25 rg 324 500 Td (' + pdfText(lines[0]) + ') Tj ET',
+        'BT /F1 25 Tf 0.10 0.16 0.25 rg 269 450 Td (' + pdfText(lines[1]) + ') Tj ET',
+        'BT /F2 12 Tf 0.27 0.34 0.42 rg 300 405 Td (' + pdfText(lines[2]) + ') Tj ET',
+        'BT /F3 43 Tf 0.75 0.18 0.35 rg 332 340 Td (' + pdfText(lines[3]) + ') Tj ET',
+        'BT /F2 12 Tf 0.27 0.34 0.42 rg 178 284 Td (' + pdfText(lines[4]) + ') Tj ET',
+        'BT /F2 12 Tf 0.27 0.34 0.42 rg 245 262 Td (' + pdfText(lines[5]) + ') Tj ET',
+        'BT /F2 10 Tf 0.38 0.42 0.46 rg 307 216 Td (' + pdfText(lines[6]) + ') Tj ET',
+        'BT /F2 9 Tf 0.38 0.42 0.46 rg 307 160 Td (' + pdfText(lines[7]) + ') Tj ET',
+        'BT /F2 9 Tf 0.38 0.42 0.46 rg 316 73 Td (' + pdfText(lines[8]) + ') Tj ET',
+        'BT /F3 12 Tf 0.75 0.18 0.35 rg 204 111 Td (Prosun) Tj ET',
+        'BT /F3 12 Tf 0.75 0.18 0.35 rg 541 111 Td (Trisha) Tj ET',
+        'BT /F2 8 Tf 0.38 0.42 0.46 rg 221 82 Td (Presented by) Tj ET',
+        'BT /F2 8 Tf 0.38 0.42 0.46 rg 570 82 Td (Celebrated as) Tj ET'
       ].join('\n');
       const objects = [
         '<< /Type /Catalog /Pages 2 0 R >>',
