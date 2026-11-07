@@ -611,6 +611,7 @@
     let ytApiPromise = null;
     let ytPlayerPromise = null;
     let ytUnavailable = false;
+    let ytWatchdogTimer = null;
 
     
     // 4 Distinct Soundscape Melody Tracks
@@ -790,6 +791,7 @@
     }
 
     function startFallbackMelody() {
+      stopYouTubeWatchdog();
       ensureContext();
       isPlaying = true;
       startMelody();
@@ -798,6 +800,48 @@
 
     function stopMelody() {
       if (melodyTimer) clearTimeout(melodyTimer);
+      melodyTimer = null;
+    }
+
+    function stopYouTubeWatchdog() {
+      if (ytWatchdogTimer) clearInterval(ytWatchdogTimer);
+      ytWatchdogTimer = null;
+    }
+
+    function startYouTubeWatchdog() {
+      stopYouTubeWatchdog();
+      let previousTime = null;
+      let stalledChecks = 0;
+      ytWatchdogTimer = setInterval(() => {
+        if (!ytPlayer || currentSoundscape !== 'saiyara' || !isPlaying) {
+          stopYouTubeWatchdog();
+          return;
+        }
+        try {
+          const state = ytPlayer.getPlayerState();
+          const currentTime = ytPlayer.getCurrentTime();
+          if (state !== 1) {
+            ytUnavailable = true;
+            ytPlayer.pauseVideo();
+            stopYouTubeWatchdog();
+            startFallbackMelody();
+            return;
+          }
+          if (previousTime !== null && currentTime <= previousTime + 0.05) stalledChecks++;
+          else stalledChecks = 0;
+          previousTime = currentTime;
+          if (stalledChecks >= 2) {
+            ytUnavailable = true;
+            ytPlayer.pauseVideo();
+            stopYouTubeWatchdog();
+            startFallbackMelody();
+          }
+        } catch (error) {
+          ytUnavailable = true;
+          stopYouTubeWatchdog();
+          startFallbackMelody();
+        }
+      }, 3000);
     }
 
     // Play a cheerful chime sound for quiz correct answer
@@ -908,8 +952,10 @@
                   if (e.data === State.PLAYING) {
                     isPlaying = true;
                     syncUI(true);
+                    startYouTubeWatchdog();
                   } else if (e.data === State.PAUSED || e.data === State.ENDED) {
                     isPlaying = false;
+                    stopYouTubeWatchdog();
                     syncUI(false);
                   }
                 },
@@ -952,6 +998,7 @@
         yt.playVideo();
         isPlaying = true;
         syncUI(true);
+        startYouTubeWatchdog();
       } catch (e) {
         isPlaying = false;
         syncUI(false);
@@ -1005,24 +1052,30 @@
               yt.pauseVideo();
             } catch (e) {}
             isPlaying = false;
+            stopYouTubeWatchdog();
             syncUI(false);
           } else {
             isPlaying = true;
             syncUI(true);
+            startYouTubeWatchdog();
             try {
               yt.playVideo();
             } catch (e) {}
-            // Self-heal if the browser blocks playback (no user gesture yet)
+            // Fall back to the local melody when YouTube reports a stalled player.
             setTimeout(() => {
               try {
                 if (!ytPlayer || currentSoundscape !== 'saiyara' || !isPlaying) return;
                 const state = ytPlayer.getPlayerState();
-                if (state === -1 || state === 2) {
-                  isPlaying = false;
-                  syncUI(false);
+                if (state !== 1) {
+                  ytUnavailable = true;
+                  yt.pauseVideo();
+                  startFallbackMelody();
                 }
-              } catch (e) {}
-            }, 3500);
+              } catch (e) {
+                ytUnavailable = true;
+                startFallbackMelody();
+              }
+            }, 2500);
           }
           return;
         }
@@ -1307,45 +1360,67 @@
 
     const questions = [
       {
-        q: 'What should we do first when we become an old married couple? 👵🏻👴🏻',
-        hint: 'Pick the plan with maximum snacks and minimum seriousness.',
-        options: ['Argue over the TV remote', 'Open a tiny dessert café', 'Take a nap together', 'All three, obviously!'],
-        correct: 3,
-        feedback: 'Correct! Our future is officially powered by snacks, naps, and playful arguments. 🍰'
+        q: 'What should our first lazy Sunday as an old married couple include? 👵🏻👴🏻',
+        hint: 'Pick the plan with maximum comfort and minimum seriousness.',
+        options: ['Breakfast in bed', 'A blanket-fort movie marathon', 'A dramatic nap competition', 'All three, obviously!']
       },
       {
         q: 'What do I intend to do with you on every rainy day? 🌧️',
-        hint: 'The answer involves music, cuddles, and ignoring responsibilities.',
-        options: ['Dance in the rain', 'Make tea and cuddle', 'Build a blanket fort', 'Yes to the whole rainy-day package!'],
-        correct: 3,
-        feedback: 'Yes to everything! Rainy days are reserved for our blanket-fort empire. ☕'
+        hint: 'The answer should include music, cuddles, and ignoring responsibilities.',
+        options: ['Dance in the rain', 'Make tea and cuddle', 'Build a blanket fort', 'Order snacks and do all of it']
       },
       {
         q: 'Who gets the last piece of cake in our future home? 🍰',
-        hint: 'There is a very romantic correct answer.',
-        options: ['Whoever reaches it first', 'We split it exactly in half', 'Trisha gets it, Prosun gets a kiss', 'The cake decides'],
-        correct: 2,
-        feedback: 'Obviously Trisha gets the cake and Prosun gets a kiss. Perfectly fair. 💋'
+        hint: 'Choose the most romantic cake law.',
+        options: ['Whoever reaches it first', 'We split it exactly in half', 'Trisha gets it and Prosun gets a kiss', 'We buy another cake']
       },
       {
         q: 'What is our dream weekend mission? 🗺️',
         hint: 'A little adventure is better when we get lost together.',
-        options: ['Explore a new city', 'Take 100 silly photos', 'Find the best local food', 'All of the above, with hand-holding'],
-        correct: 3,
-        feedback: 'Exactly! Every adventure is better with your hand in mine and a food stop nearby. 🥰'
+        options: ['Explore a new city', 'Take 100 silly photos', 'Find the best local food', 'Get lost and call it a planned tour']
+      },
+      {
+        q: 'What should our future kitchen always have? 🍳',
+        hint: 'A happy kitchen needs at least one questionable recipe.',
+        options: ['A snack drawer with your name on it', 'Music loud enough for dancing', 'A recipe we pretend to understand', 'An emergency dessert shelf']
+      },
+      {
+        q: 'What will we argue about in the cutest possible way? 📺',
+        hint: 'A tiny argument is just teamwork with extra drama.',
+        options: ['Which movie to watch', 'Who loves whom more', 'Who stole the blanket', 'All of these, followed by a cuddle']
+      },
+      {
+        q: 'What should our future travel rule be? ✈️',
+        hint: 'The best journeys have a little chaos and a lot of laughter.',
+        options: ['Always pack extra snacks', 'Take the scenic route', 'Collect silly souvenirs', 'Never stop for only one photo']
+      },
+      {
+        q: 'What secret superpower should our marriage have? 🦸‍♀️🦸‍♂️',
+        hint: 'Pick the power that makes ordinary days magical.',
+        options: ['Know when the other needs a hug', 'Turn bad days into inside jokes', 'Find food anywhere', 'All powers activated forever']
+      },
+      {
+        q: 'What should we do when we are both pretending not to be tired? 😴',
+        hint: 'Be honest: the pillow usually wins.',
+        options: ['Say “five more minutes” for an hour', 'Order comfort food', 'Cuddle until one of us falls asleep', 'Make a very serious nap schedule']
       },
       {
         q: 'What do I want to keep doing with you forever? ♾️',
-        hint: 'The answer is our entire love story in one sentence.',
-        options: ['Laugh at terrible jokes', 'Grow, travel, and make memories', 'Choose you every day', 'All of these forever and always!'],
-        correct: 3,
-        feedback: 'That is the plan: laugh, grow, wander, and choose you every single day. 💖'
+        hint: 'This is our whole love story in one silly promise.',
+        options: ['Laugh at terrible jokes', 'Grow, travel, and make memories', 'Choose you every day', 'All of it, with extra dessert']
       }
     ];
 
     let current = 0;
-    let score = 0;
     let answered = false;
+    const answersKey = 'prosun-trisha-future-answers';
+    let savedAnswers = [];
+    try {
+      const storedAnswers = JSON.parse(localStorage.getItem(answersKey) || '[]');
+      if (Array.isArray(storedAnswers)) savedAnswers = storedAnswers;
+    } catch (error) {
+      console.warn('[Prosun & Trisha] Could not restore future answers:', error);
+    }
 
     const qCounter = document.getElementById('quiz-counter');
     const qText = document.getElementById('question-text');
@@ -1379,7 +1454,16 @@
         btn.addEventListener('click', () => selectOption(btn, i));
         optsEl.appendChild(btn);
       });
+      if (savedAnswers[current]) {
+        const savedIndex = q.options.indexOf(savedAnswers[current].answer);
+        if (savedIndex >= 0) {
+          const savedButton = optsEl.children[savedIndex];
+          selectOption(savedButton, savedIndex);
+          savedButton.classList.add('correct');
+        }
+      }
 
+      submitBtn.textContent = 'Save My Answer 💕';
       submitBtn.style.display = 'inline-flex';
       nextBtn.style.display = 'none';
       feedback.style.display = 'none';
@@ -1405,30 +1489,18 @@
       answered = true;
       const answerIndex = +selected.dataset.selected;
       const q = questions[current];
-
-      if (answerIndex === q.correct) {
-        score++;
-        selected.classList.add('correct');
-        fIcon.textContent = '💖';
-        fTitle.textContent = 'Correct, my baby! ✅';
-        fTitle.style.color = '#166534';
-        fMsg.textContent = q.feedback;
-        feedback.style.background = 'linear-gradient(135deg, #dcfce7, #bbf7d0)';
-        feedback.style.borderColor = '#22c55e';
-        feedback.style.color = '#166534';
-        window.fireConfetti(60);
-        RomanticAudio.playSuccessChime();
-      } else {
-        selected.classList.add('wrong');
-        fIcon.textContent = '💝';
-        fTitle.textContent = 'Almost, my sweetheart!';
-        fTitle.style.color = '#991b1b';
-        fMsg.textContent = q.feedback + ' I still love you with all my heart! ❤️';
-        feedback.style.background = 'linear-gradient(135deg, #fee2e2, #fecaca)';
-        feedback.style.borderColor = '#ef4444';
-        feedback.style.color = '#991b1b';
-        RomanticAudio.playSoftCue();
-      }
+      selected.classList.add('correct');
+      savedAnswers[current] = { question: q.q, answer: q.options[answerIndex] };
+      localStorage.setItem(answersKey, JSON.stringify(savedAnswers));
+      fIcon.textContent = '💖';
+      fTitle.textContent = 'Saved for our future!';
+      fTitle.style.color = 'var(--pink-primary)';
+      fMsg.textContent = `You chose: “${q.options[answerIndex]}” — no wrong answers here, my love.`;
+      feedback.style.background = 'var(--bg-pill)';
+      feedback.style.borderColor = 'var(--pink-primary)';
+      feedback.style.color = 'var(--text-primary)';
+      window.fireConfetti(28);
+      RomanticAudio.playSoftCue();
 
       feedback.style.display = 'block';
       submitBtn.style.display = 'none';
@@ -1447,9 +1519,7 @@
     function showCompletion() {
       container.style.display = 'none';
       complete.style.display = 'block';
-      if (finalScoreEl) {
-        finalScoreEl.textContent = `Score: ${score} / ${questions.length} — You are 100% Prosun's Soulmate! 💖`;
-      }
+      if (finalScoreEl) finalScoreEl.textContent = '10 answers saved — Best Wife & Best Friend forever! 💖';
       window.fireConfetti(180);
       RomanticAudio.playSuccessChime();
     }
@@ -1457,7 +1527,8 @@
     if (restartBtn) {
       restartBtn.addEventListener('click', () => {
         current = 0;
-        score = 0;
+        savedAnswers = [];
+        localStorage.removeItem(answersKey);
         complete.style.display = 'none';
         container.style.display = 'block';
         loadQuestion();

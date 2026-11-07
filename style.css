@@ -1569,6 +1569,10 @@ body.cursor-active .cursor-outline {
   padding: 110px 24px 100px;
 }
 
+[data-theme="dark"] .letter-section {
+  background: radial-gradient(circle at 50% 0%, rgba(219, 39, 119, 0.12), transparent 42%);
+}
+
 .envelope-container {
   max-width: 720px;
   margin: 0 auto;
@@ -1684,9 +1688,18 @@ body.cursor-active .cursor-outline {
 
 [data-theme="dark"] .parchment-paper {
   background: #24131e;
-  border-color: #831843;
+  border-color: #be185d;
   color: #ffe4e6;
-  background-image: radial-gradient(#831843 0.75px, transparent 0.75px);
+  background-image: radial-gradient(rgba(244, 114, 182, 0.28) 0.75px, transparent 0.75px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55), 0 0 28px rgba(219, 39, 119, 0.16);
+}
+
+[data-theme="dark"] .parchment-paper strong {
+  color: #fff0f5;
+}
+
+[data-theme="dark"] .letter-instruction {
+  color: #f0c9dd;
 }
 
 .parchment-paper.visible {
@@ -1835,9 +1848,9 @@ body.cursor-active .cursor-outline {
 }
 
 .quiz-option.correct {
-  border-color: #22c55e !important;
-  background: #f0fdf4 !important;
-  color: #166534 !important;
+  border-color: var(--pink-primary) !important;
+  background: var(--bg-pill) !important;
+  color: var(--pink-primary) !important;
 }
 
 .quiz-option.wrong {

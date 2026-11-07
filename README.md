@@ -47,7 +47,7 @@ A luxury, interactive romantic web experience celebrating the love story of **Pr
   - **"+ Add Memory" Modal**: Allows adding custom memories and saving them to local storage.
   - Full-screen lightbox with Prosun's secret thoughts and a *"Send a Kiss 💋"* button.
 - **💝 Our Future Plans**:
-  - 5 playful questions about the funny adventures Prosun wants to share with Trisha, with hints, confetti, and an official **Printable Keepsake Certificate**.
+  - 10 playful, open-choice questions about the funny adventures Prosun wants to share with Trisha. Answers are saved in the browser and finish with an official **Best Wife & Best Friend Certificate**.
 - **🎮 Heart Garden**:
   - A unique 30-second mini-game where Trisha catches floating hearts to grow their shared love garden.
 - **💍 Midnight Proposal Gate**:
