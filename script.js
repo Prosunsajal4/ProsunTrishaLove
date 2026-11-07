@@ -1408,6 +1408,86 @@
     const progressFill = document.getElementById('quiz-progress-fill');
     const finalScoreEl = document.getElementById('final-score-text');
     const restartBtn = document.getElementById('restart-quiz-btn');
+    const downloadCertificateBtn = document.getElementById('download-cert-btn');
+
+    function pdfText(value) {
+      return String(value)
+        .normalize('NFKD')
+        .replace(/[^\x20-\x7E]/g, '')
+        .replace(/\\/g, '\\\\')
+        .replace(/\(/g, '\\(')
+        .replace(/\)/g, '\\)');
+    }
+
+    function createCertificatePdf() {
+      const date = new Date().toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      const lines = [
+        'BEST WIFE & BEST FRIEND',
+        'CERTIFICATE OF FOREVER',
+        'This certificate is lovingly awarded to',
+        'TRISHA',
+        "for being Prosun's favorite adventure partner,",
+        'best friend, safest place, and forever person.',
+        `Issued with infinite love on ${date}`,
+        'Every answer saved. Every promise cherished.',
+        'PROSUN & TRISHA - FOREVER AND ALWAYS'
+      ];
+      const commands = [
+        'q',
+        '0.10 0.02 0.08 rg 0 0 842 595 re f',
+        '0.98 0.72 0.20 RG 24 w 24 24 794 547 re S',
+        '0.93 0.30 0.55 rg 60 60 722 475 re f',
+        '0.16 0.03 0.12 rg 80 80 682 435 re f',
+        '0.98 0.72 0.20 RG 3 w 105 105 632 385 re S',
+        'Q',
+        'BT /F1 23 Tf 0.98 0.82 0.38 rg 256 470 Td (' + pdfText(lines[0]) + ') Tj ET',
+        'BT /F2 12 Tf 0.96 0.82 0.90 rg 293 445 Td (' + pdfText(lines[1]) + ') Tj ET',
+        'BT /F1 12 Tf 0.98 0.88 0.94 rg 291 365 Td (' + pdfText(lines[2]) + ') Tj ET',
+        'BT /F3 42 Tf 0.98 0.72 0.84 rg 309 305 Td (' + pdfText(lines[3]) + ') Tj ET',
+        'BT /F2 13 Tf 0.98 0.88 0.94 rg 206 255 Td (' + pdfText(lines[4]) + ') Tj ET',
+        'BT /F2 13 Tf 0.98 0.88 0.94 rg 255 232 Td (' + pdfText(lines[5]) + ') Tj ET',
+        'BT /F2 11 Tf 0.85 0.68 0.78 rg 302 175 Td (' + pdfText(lines[6]) + ') Tj ET',
+        'BT /F2 10 Tf 0.85 0.68 0.78 rg 300 145 Td (' + pdfText(lines[7]) + ') Tj ET',
+        'BT /F1 11 Tf 0.98 0.72 0.84 rg 298 112 Td (' + pdfText(lines[8]) + ') Tj ET'
+      ].join('\n');
+      const objects = [
+        '<< /Type /Catalog /Pages 2 0 R >>',
+        '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+        '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /Font << /F1 5 0 R /F2 6 0 R /F3 7 0 R >> >> /Contents 4 0 R >>',
+        `<< /Length ${commands.length} >>\nstream\n${commands}\nendstream`,
+        '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>',
+        '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',
+        '<< /Type /Font /Subtype /Type1 /BaseFont /Times-Italic >>'
+      ];
+      let pdf = '%PDF-1.4\n';
+      const offsets = [0];
+      objects.forEach((object, index) => {
+        offsets.push(pdf.length);
+        pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+      });
+      const xrefOffset = pdf.length;
+      pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+      offsets.slice(1).forEach((offset) => {
+        pdf += `${String(offset).padStart(10, '0')} 00000 n \n`;
+      });
+      pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+      return new Blob([pdf], { type: 'application/pdf' });
+    }
+
+    function downloadCertificatePdf() {
+      const url = URL.createObjectURL(createCertificatePdf());
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Prosun-Trisha-Best-Wife-Best-Friend-Certificate.pdf';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
 
     function loadQuestion() {
       const q = questions[current];
@@ -1494,6 +1574,11 @@
       if (finalScoreEl) finalScoreEl.textContent = '10 answers saved — Best Wife & Best Friend forever! 💖';
       window.fireConfetti(180);
       RomanticAudio.playSuccessChime();
+      downloadCertificatePdf();
+    }
+
+    if (downloadCertificateBtn) {
+      downloadCertificateBtn.addEventListener('click', downloadCertificatePdf);
     }
 
     if (restartBtn) {
